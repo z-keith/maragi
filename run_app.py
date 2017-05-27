@@ -34,7 +34,7 @@ def login():
 			if sha512_crypt.verify(request.form['password'], users[0].hashed_password):
 				login_user(users[0])
 				return redirect(url_for('index'))
-	return render_template('login.html', form=form)
+	return render_template('routing/login.html', form=form)
 
 @app.route("/logout")
 @login_required
