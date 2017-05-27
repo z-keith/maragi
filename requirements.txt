@@ -1,3 +1,0 @@
-Flask==0.12
-click==4.1
-requests==2.13.0

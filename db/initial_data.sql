@@ -10,7 +10,7 @@ INSERT INTO user (id, name) VALUES (4, 'Marvin');
 INSERT INTO goal (id, user_id, title) VALUES (1, 1, 'Make sandwiches');
 INSERT INTO goal (id, user_id, title) VALUES (2, 1, 'Save dolphins');
 INSERT INTO goal (id, user_id, title) VALUES (3, 2, 'Fly');
-INSERT INTO goal (id, user_id, title) VALUES (4, 2, 'Don\'t disappear');
+INSERT INTO goal (id, user_id, title) VALUES (4, 2, 'Don''t disappear');
 INSERT INTO goal (id, user_id, title) VALUES (5, 3, 'Scan UFOs');
 INSERT INTO goal (id, user_id, title) VALUES (6, 3, 'Write articles');
 

@@ -1,4 +1,4 @@
--- sqlite3 maragi.db < maragi-schema.sql
+-- sqlite3 maragi.db < maragi_schema.sql
 
 drop table if exists user;
 create table user (
