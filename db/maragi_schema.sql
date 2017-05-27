@@ -3,7 +3,13 @@
 drop table if exists user;
 create table user (
   id integer primary key autoincrement,
-  name text not null
+  username text not null unique,
+
+  firstname text,
+  lastname text,
+
+  email text not null,
+  hashed_password text not null
 );
 
 drop table if exists goal;

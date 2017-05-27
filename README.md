@@ -1,5 +1,4 @@
 todo: 
-user auth
-user creation and display
-goal creation and display
-action creation and display
+-	user creation and display
+-	goal creation and display
+-	action creation and display

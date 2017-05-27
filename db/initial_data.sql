@@ -1,10 +1,10 @@
 -- sqlite3 maragi.db < initial-data.sql
 
 -- Users
-INSERT INTO user (id, name) VALUES (1, 'Arthur');
-INSERT INTO user (id, name) VALUES (2, 'Fenchurch');
-INSERT INTO user (id, name) VALUES (3, 'Ford');
-INSERT INTO user (id, name) VALUES (4, 'Marvin');
+INSERT INTO user (id, username, firstname, lastname, email, hashed_password) VALUES (1, 'mustbethursday', 'Arthur', 'Dent', 'bewareofleopard@yahoo.com', '$6$rounds=656000$4zRd68HDkcQMoo3A$Ovlvva/VdfsJKZK6/sYAIoFnUcL6Cbpoh35wf2n4TZ1OAAgAo/DkBgxiMK1qKb4r/MxytGMgX4UfMg2JyQlNe0');
+INSERT INTO user (id, username, firstname, lastname, email, hashed_password) VALUES (2, 'AnArtToFlying', 'Fenchurch', '', 'nomorenails@outlook.com', '$6$rounds=656000$4zRd68HDkcQMoo3A$Ovlvva/VdfsJKZK6/sYAIoFnUcL6Cbpoh35wf2n4TZ1OAAgAo/DkBgxiMK1qKb4r/MxytGMgX4UfMg2JyQlNe0');
+INSERT INTO user (id, username, firstname, lastname, email, hashed_password) VALUES (3, 'Ix', 'Ford', 'Prefect', 'unpleasantlydrunk@gmail.com', '$6$rounds=656000$4zRd68HDkcQMoo3A$Ovlvva/VdfsJKZK6/sYAIoFnUcL6Cbpoh35wf2n4TZ1OAAgAo/DkBgxiMK1qKb4r/MxytGMgX4UfMg2JyQlNe0');
+INSERT INTO user (id, username, firstname, lastname, email, hashed_password) VALUES (4, 'oh_no', 'Marvin', 'the Paranoid Android', 'GPP.0042@siriuscybernetics.com', '$6$rounds=656000$4zRd68HDkcQMoo3A$Ovlvva/VdfsJKZK6/sYAIoFnUcL6Cbpoh35wf2n4TZ1OAAgAo/DkBgxiMK1qKb4r/MxytGMgX4UfMg2JyQlNe0');
 
 -- Goals
 INSERT INTO goal (id, user_id, title) VALUES (1, 1, 'Make sandwiches');
