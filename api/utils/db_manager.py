@@ -1,9 +1,9 @@
 import sqlite3
 
 import config
-from model.user import User
-from model.goal import Goal
-from model.action import Action
+from common.user import User
+from common.goal import Goal
+from common.action import Action
 
 class DBManager:
 

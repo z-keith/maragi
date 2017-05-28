@@ -1,21 +1,23 @@
 import os
-from flask import Flask, render_template
-from flask_login import LoginManager, current_user
+from flask import Flask
+from flask_login import LoginManager #, current_user
 
-from components.user_management.login import auth
-from components.error_handling.error_pages import errors
-from components.splash_page.index import splash
-from components.dashboard.dashboard import dash
+from routes.login import auth
+from routes.error_pages import errors
+from routes.index import home
+from routes.dashboard import dash
+from api.api_bp import api_bp
+
 from forms.login_form import LoginForm
 
-from db.db_manager import DBManager
+from api.utils.db_manager import DBManager
 
 import config
 
 app = Flask(__name__)
 login_manager = LoginManager()
 login_manager.init_app(app)
-login_manager.login_view = "splash.index"
+login_manager.login_view = "home.index"
 
 @login_manager.user_loader
 def load_user(user_id):
@@ -24,17 +26,16 @@ def load_user(user_id):
 	return user
 
 app.register_blueprint(auth)
-app.register_blueprint(splash)
+app.register_blueprint(home)
 app.register_blueprint(errors)
 app.register_blueprint(dash)
+app.register_blueprint(api_bp, subdomain='api')
 
 if __name__ == '__main__':
 	app.debug = True
 	app.secret_key = config.SECRET_KEY
+	app.config['SERVER_NAME'] = config.SERVER_NAME
 
 	host = os.environ.get('IP', '0.0.0.0')
 	port = int(os.environ.get('PORT', 8080))
 	app.run(host=host, port=port)
-
-
-
