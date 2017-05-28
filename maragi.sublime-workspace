@@ -1,0 +1,419 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"re",
+				"register_blueprint"
+			],
+			[
+				"s",
+				"splash"
+			],
+			[
+				"Log",
+				"LoginManager"
+			],
+			[
+				"logout",
+				"logout_user"
+			],
+			[
+				"use",
+				"username"
+			],
+			[
+				"curr",
+				"current_user"
+			],
+			[
+				"login_",
+				"login_required"
+			],
+			[
+				"cur",
+				"current_user"
+			],
+			[
+				"or",
+				"order"
+			],
+			[
+				"for",
+				"format"
+			],
+			[
+				"se",
+				"select_string"
+			],
+			[
+				"limi",
+				"limit"
+			],
+			[
+				"l",
+				"limit"
+			],
+			[
+				"v",
+				"ValueError"
+			],
+			[
+				"get",
+				"get_results"
+			],
+			[
+				"limit",
+				"limitstring"
+			],
+			[
+				"order",
+				"orderstring"
+			],
+			[
+				"cla",
+				"clause"
+			],
+			[
+				"ord",
+				"orderstring"
+			],
+			[
+				"where",
+				"wherestring"
+			],
+			[
+				"wh",
+				"where"
+			],
+			[
+				"retur",
+				"return_dict"
+			],
+			[
+				"db",
+				"db_manager"
+			]
+		]
+	},
+	"buffers":
+	[
+		{
+			"file": "run_app.py",
+			"settings":
+			{
+				"buffer_size": 954,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "components/splash_page/index.py",
+			"settings":
+			{
+				"buffer_size": 414,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"contents": "from flask import Blueprint, render_template, request, redirect, url_for\nfrom flask_login import LoginManager, login_required, login_user, logout_user, current_user\nfrom passlib.hash import sha512_crypt\n\nfrom db.db_manager import DBManager, WhereClause, OrderClause, LimitClause\nfrom forms.login_form import LoginForm\n\nauth = Blueprint('auth', __name__, template_folder='templates')\n\n@auth.route('/login', methods=['POST'])\ndef login():\n\tusername = request.form['username']\n\tpassword = request.form['password']\n\tdb = DBManager()\n\ttry:\n\t\tusers = db.get_users([WhereClause('username', '=', username)])\n\texcept:\n\t\t#return 'Username not found'\n\t\treturn redirect(url_for('splash.index'))\n\n\tif len(users) != 1:\n\t\t# return 'Database error - please contact support'\n\t\treturn redirect(url_for('splash.index'))\n\t\t\t\n\tif not sha512_crypt.verify(password, users[0].hashed_password):\n\t\t# return 'Invalid password'\n\t\treturn redirect(url_for('splash.index'))\n\n\tlogin_user(users[0])\n\t\n\treturn redirect(url_for('splash.index'))\n\n@auth.route(\"/logout\")\ndef logout():\n\tif current_user.get_id():\n\t\tlogout_user()\n\treturn redirect(url_for('splash.index'))\n\n",
+			"file": "components/user_management/login.py",
+			"file_size": 1065,
+			"file_write_time": 131404124569131399,
+			"settings":
+			{
+				"buffer_size": 1134,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		}
+	],
+	"build_system": "",
+	"build_system_choices":
+	[
+	],
+	"build_varint": "",
+	"command_palette":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"console":
+	{
+		"height": 0.0,
+		"history":
+		[
+		]
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"expanded_folders":
+	[
+		"/D/Files/Repos/flask_testing/maragi",
+		"/D/Files/Repos/flask_testing/maragi/components",
+		"/D/Files/Repos/flask_testing/maragi/components/dashboard",
+		"/D/Files/Repos/flask_testing/maragi/components/error_handling",
+		"/D/Files/Repos/flask_testing/maragi/components/splash_page",
+		"/D/Files/Repos/flask_testing/maragi/components/splash_page/__pycache__",
+		"/D/Files/Repos/flask_testing/maragi/components/user_management",
+		"/D/Files/Repos/flask_testing/maragi/db",
+		"/D/Files/Repos/flask_testing/maragi/forms",
+		"/D/Files/Repos/flask_testing/maragi/model",
+		"/D/Files/Repos/flask_testing/maragi/static",
+		"/D/Files/Repos/flask_testing/maragi/templates",
+		"/D/Files/Repos/flask_testing/maragi/templates/forms",
+		"/D/Files/Repos/flask_testing/maragi/templates/inheritance",
+		"/D/Files/Repos/flask_testing/maragi/templates/request"
+	],
+	"file_history":
+	[
+		"/D/Files/Repos/flask_testing/maragi/components/error_handling/error_pages.py",
+		"/D/Files/Repos/flask_testing/maragi/components/dashboard/main.py",
+		"/D/Files/Repos/flask_testing/maragi/db/db_manager.py",
+		"/D/Files/Repos/flask_testing/maragi/templates/index.html",
+		"/D/Files/Repos/flask_testing/maragi/components/auth/login.py",
+		"/D/Files/Repos/flask_testing/maragi/db/maragi_schema.sql",
+		"/D/Files/Repos/flask_testing/maragi/forms/login_form.py",
+		"/D/Files/Repos/flask_testing/maragi/model/user.py",
+		"/D/Files/Repos/flask_testing/maragi/templates/routing/login.html",
+		"/D/Files/Repos/flask_testing/maragi/logic/login.py",
+		"/D/Files/Repos/flask_testing/maragi/db/initial_data.sql",
+		"/D/Files/Repos/flask_testing/maragi/config.py",
+		"/D/Files/Repos/flask_testing/maragi/templates/login.html",
+		"/D/Files/Repos/flask_testing/maragi/templates/forms/login_form.py",
+		"/D/Files/Repos/flask_testing/maragi/templates/forms/loginform.py",
+		"/D/Files/Repos/flask_testing/maragi/model/account.py",
+		"/D/Files/Repos/flask_testing/maragi/model/action.py",
+		"/D/Files/Repos/flask_testing/maragi/model/goal.py",
+		"/D/Files/Repos/flask_testing/maragi/README.md",
+		"/D/Files/Repos/flask_testing/maragi/requirements.txt",
+		"/D/Files/Repos/flask_testing/maragi/run_app.py",
+		"/D/Files/Repos/flask_assignments/first-flask-assignment/app.py",
+		"/D/Files/Repos/flask_testing/flask_introduction/run_app.py",
+		"/D/Files/OneDrive/Documents/medium-term todo",
+		"/D/Files/OneDrive/Documents/short-term todo"
+	],
+	"find":
+	{
+		"height": 34.0
+	},
+	"find_in_files":
+	{
+		"height": 0.0,
+		"where_history":
+		[
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": false,
+		"find_history":
+		[
+			"current_user",
+			"))\n",
+			"()\n"
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"selected": 2,
+			"sheets":
+			[
+				{
+					"buffer": 0,
+					"file": "run_app.py",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 954,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								755,
+								755
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Python/Python.sublime-syntax",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 2,
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "components/splash_page/index.py",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 414,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								340,
+								340
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Python/Python.sublime-syntax"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 1,
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "components/user_management/login.py",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1134,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								757,
+								757
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Python/Python.sublime-syntax",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
+					"type": "text"
+				}
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 23.0
+	},
+	"input":
+	{
+		"height": 31.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"output.find_results":
+	{
+		"height": 0.0
+	},
+	"pinned_build_system": "",
+	"project": "maragi.sublime-project",
+	"replace":
+	{
+		"height": 42.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_symbol":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"selected_group": 0,
+	"settings":
+	{
+	},
+	"show_minimap": true,
+	"show_open_files": false,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 208.0,
+	"status_bar_visible": true,
+	"template_settings":
+	{
+	}
+}

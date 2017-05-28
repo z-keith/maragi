@@ -4,7 +4,7 @@ import config
 class User:
 
 	def __init__(self, row):
-		self.id = int(row[0])
+		self.id = str(row[0])
 		self.username = row[1]
 
 		self.firstname = row[2]
@@ -26,7 +26,7 @@ class User:
 		return False
 
 	def get_id(self):
-		return str(self.id)
+		return self.id
 
 	def hash_password(self, password):
 		self.hashed_password =sha512_crypt.hash(password)

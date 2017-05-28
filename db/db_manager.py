@@ -42,6 +42,10 @@ class DBManager:
 			return_list.append(User(row))
 		return return_list		
 
+	def get_user_by_ID(self, id):
+		user = self.get_results("user", where=[WhereClause('id', '=', id)])
+		return User(user[0])
+
 	def get_goals(self, where=None, order=None, limit=None):
 		goals = self.get_results("goal", where, order, limit)
 
@@ -57,6 +61,34 @@ class DBManager:
 		for row in actions:
 			return_list.append(Action(row))
 		return return_list
+
+	def add_user(self):
+		pass
+
+	def add_goal(self):
+		pass
+
+	def add_action(self):
+		pass
+
+	def edit_user(self):
+		pass
+
+	def edit_goal(self):
+		pass
+
+	def edit_action(self):
+		pass
+
+	def delete_user(self):
+		pass
+
+	def delete_goal(self):
+		pass
+
+	def delete_action(self):
+		pass
+
 
 class WhereClause:
 	allowable_operators = ["<", "<=", "=", "!=", ">", ">=", "IS NULL", "IS NOT NULL", "LIKE", "EXISTS"]

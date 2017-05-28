@@ -1,9 +1,0 @@
-<form action="/login" method="post">
-{% for field in form %}
-    <tr>
-        <th>{{ field.label }}</th>
-        <td>{{ field }}</td>
-    </tr>
-{% endfor %}
-<input type="submit" name="login">
-</form>

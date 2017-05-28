@@ -2,10 +2,20 @@
 	<head>
 	</head>
 	<body>
+		<form action="/login" method="post">
+			{% for field in loginform %}
+			<tr>
+				<th>{{ field.label }}</th>
+				<td>{{ field }}</td>
+			</tr>
+			{% endfor %}
+			<input type="submit" name="login">
+		</form>
+		<h1>Current user: {{current_user.username}}</h1>
 		<ul>
-		{% for u in users %}
+			{% for u in users %}
 			<li>{{u.username}}</li>
-		{% endfor %}
+			{% endfor %}
 		</ul>
 	</body>
 </html>
