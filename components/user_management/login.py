@@ -26,7 +26,7 @@ def login():
 		# return 'Invalid password'
 		return redirect(url_for('splash.index'))
 
-	login_user(users[0])
+	login_user(users[0], remember=True)
 	
 	return redirect(url_for('dash.dashboard'))
 
