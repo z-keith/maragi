@@ -1,4 +1,4 @@
-from itsdangerous import (TimedJSONWebSignatureSerializer as Serializer, BadSignature, SignatureExpired)
+from itsdangerous import (JSONWebSignatureSerializer as Serializer, BadSignature, SignatureExpired)
 from passlib.hash import sha512_crypt
 
 from api.utils.db_manager import DBManager, WhereClause
@@ -14,7 +14,7 @@ def check_password(username, password):
 
 	return sha512_crypt.verify(password, user.hashed_password)
 
-def generate_auth_token(username, expiration = 600):
+def generate_auth_token(username):
 	where = [WhereClause('username', '=', username)]
 	db = DBManager()
 	users = db.get_users(where)
@@ -22,15 +22,13 @@ def generate_auth_token(username, expiration = 600):
 		return None
 	user = users[0]
 
-	s = Serializer(SERIALIZER_KEY, expires_in = expiration)
+	s = Serializer(SERIALIZER_KEY)
 	return s.dumps({ 'id': user.id })
 
 def verify_auth_token(token):
 	s = Serializer(SERIALIZER_KEY)
 	try:
 		data = s.loads(token)
-	except SignatureExpired:
-		return None
 	except BadSignature:
 		return None
 

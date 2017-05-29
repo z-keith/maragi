@@ -1,7 +1,7 @@
 import sqlite3
 
 import config
-from common.user import User
+from common.user import User, user_from_db
 from common.goal import Goal
 from common.action import Action
 
@@ -39,12 +39,12 @@ class DBManager:
 
 		return_list = list()
 		for row in users:
-			return_list.append(User(row))
+			return_list.append(user_from_db(row))
 		return return_list		
 
 	def get_user_by_ID(self, id):
 		user = self.get_results("user", where=[WhereClause('id', '=', id)])
-		return User(user[0])
+		return user_from_db(user[0])
 
 	def get_goals(self, where=None, order=None, limit=None):
 		goals = self.get_results("goal", where, order, limit)

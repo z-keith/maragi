@@ -6,6 +6,8 @@ import requests
 from api.utils.db_manager import DBManager, WhereClause, OrderClause, LimitClause
 from forms.login_form import LoginForm
 
+from common.user import user_from_json
+
 auth = Blueprint('auth', __name__, template_folder='templates')
 
 @auth.route('/login', methods=['POST'])
@@ -16,16 +18,18 @@ def login():
 		
 		token_response = requests.post(url_for('api.requesttoken', _external=True), data={'username' : username, 'password' : password})
 		response_code = token_response.json()['status']
-		token = token_response.json()['token']
 
 		if response_code == 200:
-			pass
-			user_id = requests.post(url_for('api.validatetoken', _external=True), data={'token' : token})
+			token = token_response.json()['token']
+			validate_response = requests.post(url_for('api.validatetoken', _external=True), data={'token' : token})
+			user_id = validate_response.json()['id']
 			# get user json
+			user_json = requests.get(url_for('api.user', id=user_id, _external=True)).json()
 			# build user object from json
-			# login user object 	# login_user(user, remember=True)
-			# save token to user object
-			# redirect to dashboard
+			user = user_from_json(user_json)
+			# login user object 	
+			login_user(user, remember=True)
+			user.token = token
 		else:
 			pass
 			# login error
