@@ -1,66 +1,25 @@
-import sqlite3
-
 import config
-from common.user import User, user_from_db
+from common.user import User
 from common.goal import Goal
 from common.action import Action
 
 class DBManager:
 
-	def __init__(self):
-		self.db = sqlite3.connect(config.DATABASE_NAME)
+	def get_users(self):
+		return User.query.all()
 
-	def get_results(self, table, where=None, order=None, limit=None):
-		wherestring = ""
-		orderstring = "" 
-		limitstring = ""
-		params = list()
-		
-		if where:
-			wherestring = "WHERE"
-			for clause in where:
-				wherestring +=  " {0} {1} ? AND".format(clause.left, clause.operator)
-				params.append(clause.right)
-			wherestring = wherestring[:-3]
-		
-		if order:
-			orderstring = " ORDER BY {0} {1} ".format(order.column, order.direction)
-		
-		if limit:
-			limitstring = " LIMIT {0} ".format(limit.value)
+	def get_user(self, id=None, username=None):
+		if id:
+			return User.query.filter_by(id=id).first()
+		if username:
+			return User.query.filter_by(username=username).first()
+		return None
 
-		select_string = "SELECT * FROM {0} {1}{2}{3};".format(table, wherestring, orderstring, limitstring)
-		param_tuple = tuple(params)
-		cursor = self.db.execute(select_string, param_tuple)
-		return cursor.fetchall()		
-
-	def get_users(self, where=None, order=None, limit=None):
-		users = self.get_results("user", where, order, limit)
-
-		return_list = list()
-		for row in users:
-			return_list.append(user_from_db(row))
-		return return_list		
-
-	def get_user_by_ID(self, id):
-		user = self.get_results("user", where=[WhereClause('id', '=', id)])
-		return user_from_db(user[0])
-
-	def get_goals(self, where=None, order=None, limit=None):
-		goals = self.get_results("goal", where, order, limit)
-
-		return_list = list()
-		for row in goals:
-			return_list.append(Goal(row))
-		return return_list
+	def get_goals(self):
+		pass
 
 	def get_actions(self, where=None, order=None, limit=None):
-		actions = self.get_results("action", where, order, limit)
-
-		return_list = list()
-		for row in actions:
-			return_list.append(Action(row))
-		return return_list
+		pass
 
 	def add_user(self):
 		pass
@@ -117,3 +76,5 @@ class LimitClause:
 			self.limit = int(limit)
 		else:
 			raise ValueError('Bad limit: {0}'.format(limit))
+
+manager = DBManager()

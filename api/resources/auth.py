@@ -16,6 +16,7 @@ class RequestToken(Resource):
 			if token:
 				return jsonify(token=token.decode('ascii'), status=200)
 		return jsonify(message='invalid username or password', status=401)
+		
 class ValidateToken(Resource):
 	def post(self):
 		args = parser.parse_args()

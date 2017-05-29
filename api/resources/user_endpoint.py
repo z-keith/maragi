@@ -1,14 +1,13 @@
 from flask import jsonify
 from flask_restful import Resource, reqparse
 
-from api.utils.db_manager import DBManager, WhereClause
+from api.utils.db_manager import manager
 
 from common.user import User
 
-class User(Resource):
+class UserEndpoint(Resource):
 	def get(self, id):
-		db = DBManager()
-		user = db.get_user_by_ID(id)
+		user = manager.get_user(id=id)
 		if user:
 			return user.to_json()
 		else:

@@ -3,7 +3,6 @@ from flask_login import LoginManager, login_required, login_user, logout_user, c
 from passlib.hash import sha512_crypt
 import requests
 
-from api.utils.db_manager import DBManager, WhereClause, OrderClause, LimitClause
 from forms.login_form import LoginForm
 
 from common.user import user_from_json
@@ -22,16 +21,17 @@ def login():
 		if response_code == 200:
 			token = token_response.json()['token']
 			validate_response = requests.post(url_for('api.validatetoken', _external=True), data={'token' : token})
+			
 			user_id = validate_response.json()['id']
-			# get user json
-			user_json = requests.get(url_for('api.user', id=user_id, _external=True)).json()
-			# build user object from json
-			user = user_from_json(user_json)
-			# login user object 	
+			
+			user_response = requests.get(url_for('api.userendpoint', id=user_id, _external=True))
+			user_json = user_response.json()
+			user = user_from_json(user_json) 	
+			
 			login_user(user, remember=True)
-			user.token = token
+			current_user.token = token
+			print(current_user.username)
 		else:
-			pass
 			# login error
 			return redirect(url_for('home.index'))
 			
@@ -43,3 +43,12 @@ def logout():
 		logout_user()
 	return redirect(url_for('home.index'))
 
+login_manager = LoginManager()
+login_manager.login_view = "home.index"
+
+@login_manager.user_loader
+def load_user(user_id):
+	user_response = requests.get(url_for('api.userendpoint', id=user_id, _external=True))
+	user_json = user_response.json()
+	user = user_from_json(user_json)
+	return user
