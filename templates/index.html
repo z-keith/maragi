@@ -12,10 +12,14 @@
 			<input type="submit" name="login">
 		</form>
 		<h1>Current user: {{current_user.username}}</h1>
-		<ul>
-			{% for u in users %}
-			<li>{{u.username}}</li>
-			{% endfor %}
-		</ul>
+		{% for u in users %}
+		<h2>{{u.username}}</h2>
+			{% for g in u.goals %}
+			<h3>{{g.title}}</h3>
+				{% for a in g.actions %}
+				<p>- {{a.description}}</p>
+				{% endfor %}
+			{% endfor %}	
+		{% endfor %}
 	</body>
 </html>

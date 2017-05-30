@@ -30,7 +30,6 @@ def login():
 			
 			login_user(user, remember=True)
 			current_user.token = token
-			print(current_user.username)
 		else:
 			# login error
 			return redirect(url_for('home.index'))

@@ -1,7 +1,7 @@
 from itsdangerous import (JSONWebSignatureSerializer as Serializer, BadSignature, SignatureExpired)
 from passlib.hash import sha512_crypt
 
-from api.utils.db_manager import manager, WhereClause
+from api.utils.db_manager import manager
 from config import SERIALIZER_KEY
 
 def check_password(username, password):

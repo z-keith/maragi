@@ -10,6 +10,8 @@ from api.api_bp import api_bp
 
 from db.database import db
 from common.user import init_users
+from common.goal import init_goals
+from common.action import init_actions
 
 import config
 
@@ -29,15 +31,18 @@ app.register_blueprint(api_bp)#, subdomain='api')
 
 def setup_test_db(app):
 	with app.app_context():
+		db.drop_all()
 		db.create_all()
 		init_users()
+		init_goals()
+		init_actions()
 
 if __name__ == '__main__':
 	app.debug = True
 	app.secret_key = config.SECRET_KEY
 	app.config['SERVER_NAME'] = config.SERVER_NAME
 
-	#setup_test_db(app)
+	setup_test_db(app)
 
 	host = os.environ.get('IP', '0.0.0.0')
 	port = int(os.environ.get('PORT', 8080))

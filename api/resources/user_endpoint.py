@@ -12,3 +12,11 @@ class UserEndpoint(Resource):
 			return user.to_json()
 		else:
 			return jsonify(message='user not found', status=404)
+
+class UsersEndpoint(Resource):
+	def get(self):
+		users = manager.get_user_ids()
+		if users:
+			return jsonify(users = users, status = 200)
+		else:
+			return jsonify(message='users not found', status=404)

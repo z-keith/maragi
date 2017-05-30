@@ -42,7 +42,7 @@ class User(db.Model):
 		return sha512_crypt.verify(password, self.password_hash)
 
 	def to_json(self):
-		return jsonify(id=self.id, username=self.username, firstname=self.firstname, lastname=self.lastname, email=self.email, hashed_password=self.hashed_password)
+		return jsonify(status=200, id=self.id, username=self.username, firstname=self.firstname, lastname=self.lastname, email=self.email, hashed_password=self.hashed_password)
 
 def user_from_json(json):
 	id = json['id']
