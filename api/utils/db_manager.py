@@ -1,6 +1,7 @@
 from sqlalchemy import func
 
 import config
+from db.database import db
 from common.user import User
 from common.goal import Goal
 from common.action import Action
@@ -33,8 +34,9 @@ class DBManager:
 			return Action.query.filter_by(id=action_id).first()
 		return None
 
-	def add_user(self):
-		pass
+	def add_user(self, user):
+		db.session.add(user)
+		db.session.commit()
 
 	def add_goal(self):
 		pass

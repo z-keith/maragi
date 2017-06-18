@@ -12,8 +12,7 @@ class User(db.Model):
 	email = db.Column(db.String(64))
 	hashed_password = db.Column(db.String(120))
 
-	def __init__(self, id, username, firstname, lastname, email, hashed_password):
-		self.id = id
+	def __init__(self, username, firstname, lastname, email, hashed_password=None):
 		self.username = username
 		self.firstname = firstname
 		self.lastname = lastname
@@ -38,6 +37,9 @@ class User(db.Model):
 	def hash_password(self, password):
 		self.hashed_password =sha512_crypt.hash(password)
 
+	def validate(self):
+		return True
+
 	def verify_password(self, password):
 		return sha512_crypt.verify(password, self.password_hash)
 
@@ -54,13 +56,16 @@ def user_from_json(json):
 	email = json['email']
 	hashed_password = json['hashed_password']
 
-	return User(id, username, firstname, lastname, email, hashed_password)
+	ret = User(username, firstname, lastname, email, hashed_password)
+	ret.id = id
+	
+	return ret
 
 def init_users():
-	arthur = User(1, 'mustbethursday', 'Arthur', 'Dent', 'bewareofleopard@yahoo.com', '$6$rounds=656000$4zRd68HDkcQMoo3A$Ovlvva/VdfsJKZK6/sYAIoFnUcL6Cbpoh35wf2n4TZ1OAAgAo/DkBgxiMK1qKb4r/MxytGMgX4UfMg2JyQlNe0')
-	fenchurch = User(2, 'AnArtToFlying', 'Fenchurch', '', 'nomorenails@outlook.com', '$6$rounds=656000$4zRd68HDkcQMoo3A$Ovlvva/VdfsJKZK6/sYAIoFnUcL6Cbpoh35wf2n4TZ1OAAgAo/DkBgxiMK1qKb4r/MxytGMgX4UfMg2JyQlNe0')
-	ford = User(3, 'Ix', 'Ford', 'Prefect', 'unpleasantlydrunk@gmail.com', '$6$rounds=656000$4zRd68HDkcQMoo3A$Ovlvva/VdfsJKZK6/sYAIoFnUcL6Cbpoh35wf2n4TZ1OAAgAo/DkBgxiMK1qKb4r/MxytGMgX4UfMg2JyQlNe0')
-	marvin = User(4, 'oh_no', 'Marvin', 'the Paranoid Android', 'GPP.0042@siriuscybernetics.com', '$6$rounds=656000$4zRd68HDkcQMoo3A$Ovlvva/VdfsJKZK6/sYAIoFnUcL6Cbpoh35wf2n4TZ1OAAgAo/DkBgxiMK1qKb4r/MxytGMgX4UfMg2JyQlNe0')
+	arthur = User('mustbethursday', 'Arthur', 'Dent', 'bewareofleopard@yahoo.com', '$6$rounds=656000$4zRd68HDkcQMoo3A$Ovlvva/VdfsJKZK6/sYAIoFnUcL6Cbpoh35wf2n4TZ1OAAgAo/DkBgxiMK1qKb4r/MxytGMgX4UfMg2JyQlNe0')
+	fenchurch = User('AnArtToFlying', 'Fenchurch', '', 'nomorenails@outlook.com', '$6$rounds=656000$4zRd68HDkcQMoo3A$Ovlvva/VdfsJKZK6/sYAIoFnUcL6Cbpoh35wf2n4TZ1OAAgAo/DkBgxiMK1qKb4r/MxytGMgX4UfMg2JyQlNe0')
+	ford = User('Ix', 'Ford', 'Prefect', 'unpleasantlydrunk@gmail.com', '$6$rounds=656000$4zRd68HDkcQMoo3A$Ovlvva/VdfsJKZK6/sYAIoFnUcL6Cbpoh35wf2n4TZ1OAAgAo/DkBgxiMK1qKb4r/MxytGMgX4UfMg2JyQlNe0')
+	marvin = User('oh_no', 'Marvin', 'the Paranoid Android', 'GPP.0042@siriuscybernetics.com', '$6$rounds=656000$4zRd68HDkcQMoo3A$Ovlvva/VdfsJKZK6/sYAIoFnUcL6Cbpoh35wf2n4TZ1OAAgAo/DkBgxiMK1qKb4r/MxytGMgX4UfMg2JyQlNe0')
 
 	db.session.add(arthur)
 	db.session.add(fenchurch)

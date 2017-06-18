@@ -4,6 +4,7 @@ import requests
 
 from api.utils.db_manager import manager
 from forms.login_form import LoginForm
+from forms.new_user_form import NewUserForm
 from common.user import user_from_json
 from common.goal import goal_from_json
 from common.action import action_from_json
@@ -48,4 +49,4 @@ def index():
 				action = action_from_json(action_json)
 				goal.actions.append(action)
 
-	return render_template('index.html', users=user_list, loginform=LoginForm())
+	return render_template('index.html', users=user_list, loginform=LoginForm(), newuserform = NewUserForm())

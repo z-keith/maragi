@@ -11,7 +11,16 @@
 			{% endfor %}
 			<input type="submit" name="login">
 		</form>
-		<h1>Current user: {{current_user.username}}</h1>
+		<form action="/users" method="post">
+			{% for field in newuserform %}
+			<tr>
+				<th>{{ field.label }}</th>
+				<td>{{ field }}</td>
+			</tr>
+			{% endfor %}
+			<input type="submit" name="user">
+		</form>
+		<h1>Current user: {{current_user.id}} {{current_user.username}}</h1>
 		{% for u in users %}
 		<h2>{{u.username}}</h2>
 			{% for g in u.goals %}
