@@ -8,8 +8,7 @@ class Goal(db.Model):
 	user_id = db.Column(db.Integer)
 	title = db.Column(db.String(64))
 
-	def __init__(self, id, user_id, title):
-		self.id = id
+	def __init__(self, user_id, title):
 		self.user_id = user_id
 		self.title = title
 
@@ -20,15 +19,17 @@ def goal_from_json(json):
 	id = json['id']
 	user_id = json['user_id']
 	title = json['title']
-	return Goal(id, user_id, title)
+	ret = Goal(user_id, title)
+	ret.id = id
+	return ret
 
 def init_goals():
-	g1 = Goal(1, 1, 'Make sandwiches')
-	g2 = Goal(2, 1, 'Save dolphins')
-	g3 = Goal(3, 2, 'Fly')
-	g4 = Goal(4, 2, 'Don''t disappear')
-	g5 = Goal(5, 3, 'Scan UFOs')
-	g6 = Goal(6, 3, 'Write articles')
+	g1 = Goal(1, 'Make sandwiches')
+	g2 = Goal(1, 'Save dolphins')
+	g3 = Goal(2, 'Fly')
+	g4 = Goal(2, 'Don''t disappear')
+	g5 = Goal(3, 'Scan UFOs')
+	g6 = Goal(3, 'Write articles')
 
 	db.session.add(g1)
 	db.session.add(g2)

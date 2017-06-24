@@ -1,5 +1,4 @@
 todo: 
--	user creation
 -	goal creation
 -	action creation
 -	fix apostrophes
@@ -14,3 +13,4 @@ todo:
 -	send id in header username and token in header password field of requests to pw-protected endpoints
 -	fix dashboard login_required
 -	optimize request count?
+-	deletion
