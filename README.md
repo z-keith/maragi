@@ -2,6 +2,14 @@ todo:
 -	user creation
 -	goal creation
 -	action creation
+-	fix apostrophes
+-	user edit
+-	goal edit
+-	action edit
+-	user delete
+-	goal delete
+-	action delete
+-	auth api/random auth ID
 -	pass login errors back to page
 -	send id in header username and token in header password field of requests to pw-protected endpoints
 -	fix dashboard login_required
