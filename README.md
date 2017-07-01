@@ -1,6 +1,6 @@
 todo: 
--	goal creation
 -	action creation
+-	user/goal/action validation
 -	fix apostrophes
 -	user edit
 -	goal edit

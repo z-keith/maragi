@@ -5,6 +5,10 @@ from api.utils.db_manager import manager
 
 from common.goal import Goal
 
+parser = reqparse.RequestParser()
+parser.add_argument('user_id')
+parser.add_argument('title')
+
 class GoalEndpoint(Resource):
 	def get(self, id):
 		goal = manager.get_goal(id)
@@ -20,3 +24,12 @@ class GoalsEndpoint(Resource):
 			return jsonify(goals = goals, status = 200)
 		else:
 			return jsonify(message='goals for user not found', status=404)
+
+	def post(self):
+		args = parser.parse_args()
+		user_id = args['user_id']
+		title = args['title']		
+
+		new_goal = Goal(user_id, title)
+		if new_goal.validate():
+			manager.add_goal(new_goal)

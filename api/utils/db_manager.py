@@ -38,8 +38,9 @@ class DBManager:
 		db.session.add(user)
 		db.session.commit()
 
-	def add_goal(self):
-		pass
+	def add_goal(self, goal):
+		db.session.add(goal)
+		db.session.commit()
 
 	def add_action(self):
 		pass
