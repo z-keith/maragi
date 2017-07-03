@@ -3,6 +3,10 @@
 	{
 		"selected_items":
 		[
+			[
+				"s",
+				"session"
+			]
 		]
 	},
 	"buffers":
@@ -45,10 +49,26 @@
 		"/C/Users/zackk/Repos/maragi/api/resources",
 		"/C/Users/zackk/Repos/maragi/api/utils",
 		"/C/Users/zackk/Repos/maragi/common",
-		"/C/Users/zackk/Repos/maragi/db"
+		"/C/Users/zackk/Repos/maragi/db",
+		"/C/Users/zackk/Repos/maragi/forms",
+		"/C/Users/zackk/Repos/maragi/routes",
+		"/C/Users/zackk/Repos/maragi/static",
+		"/C/Users/zackk/Repos/maragi/templates"
 	],
 	"file_history":
 	[
+		"/C/Users/zackk/Repos/maragi/common/user.py",
+		"/C/Users/zackk/Repos/maragi/routes/index.py",
+		"/C/Users/zackk/Repos/maragi/api/utils/db_manager.py",
+		"/C/Users/zackk/Repos/maragi/api/resources/user_endpoint.py",
+		"/C/Users/zackk/Repos/maragi/README.md",
+		"/C/Users/zackk/Repos/maragi/.gitignore",
+		"/C/Users/zackk/Repos/maragi/templates/index.html",
+		"/C/Users/zackk/Repos/maragi/forms/new_user_form.py",
+		"/C/Users/zackk/Repos/maragi/api/api_bp.py",
+		"/C/Users/zackk/Repos/maragi/common/action.py",
+		"/C/Users/zackk/Repos/maragi/common/goal.py",
+		"/C/Users/zackk/Repos/maragi/maragi.sublime-project"
 	],
 	"find":
 	{

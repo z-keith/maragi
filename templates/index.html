@@ -2,31 +2,48 @@
 	<head>
 	</head>
 	<body>
+		<h1>Login block</h1>
 		<form action="/login" method="post">
 			{% for field in loginform %}
 			<tr>
-				<th>{{ field.label }}</th>
+				<th>{{ field.label | safe }}</th>
 				<td>{{ field }}</td>
 			</tr>
 			{% endfor %}
 			<input type="submit" name="login">
 		</form>
-		<form action="/users" method="post">
+		<h1>New User block</h1>
+		<form action="/add_user" method="post">
 			{% for field in newuserform %}
 			<tr>
-				<th>{{ field.label }}</th>
+				<th>{{ field.label | safe }}</th>
 				<td>{{ field }}</td>
 			</tr>
 			{% endfor %}
 			<input type="submit" name="user">
 		</form>
-		<h1>Current user: {{current_user.id}} {{current_user.username}}</h1>
+		{% if newgoalform %}
+		<h1>Add Goal block</h1>
+		<form action="/add_goal" method="post">
+			{% for field in newgoalform %}
+			<tr>
+				<th>{{ field.label | safe }}</th>
+				<td>{{ field }}</td>
+			</tr>
+			{% endfor %}
+			<input type="submit" name="goal">
+		</form>
+		{% endif %}
+
+		<br>
+
+		<h1>Current user: {{current_user.id | e}} {{current_user.username | e}}</h1>
 		{% for u in users %}
-		<h2>{{u.username}}</h2>
+		<h2>{{u.username | e}}</h2>
 			{% for g in u.goals %}
-			<h3>{{g.title}}</h3>
+			<h3>{{g.title | e}}</h3>
 				{% for a in g.actions %}
-				<p>- {{a.description}}</p>
+				<p>- {{a.description | e}}</p>
 				{% endfor %}
 			{% endfor %}	
 		{% endfor %}

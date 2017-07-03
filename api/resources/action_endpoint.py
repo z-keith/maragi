@@ -1,22 +1,40 @@
 from flask import jsonify
-from flask_restful import Resource, reqparse
+from flask_restful import Resource, reqparse, fields, marshal_with
 
 from api.utils.db_manager import manager
 
 from common.action import Action
 
-class ActionEndpoint(Resource):
-	def get(self, id):
-		action = manager.get_action(id)
-		if action:
-			return action.to_json()
-		else:
-			return jsonify(message='action not found', status=404)
+parser = reqparse.RequestParser()
+parser.add_argument('goal_id')
+parser.add_argument('description')
 
-class ActionsEndpoint(Resource):
-	def get(self, id):
-		actions = manager.get_action_ids(id)
-		if actions:
-			return jsonify(actions = actions, status = 200)
-		else:
-			return jsonify(message='actions for goal not found', status=404)
+action_fields = {
+	'action_id' : fields.Integer,
+	'goal_id' : fields.Integer,
+	'description' : fields.String
+}
+
+class GetActionByActionID(Resource):
+	@marshal_with(action_fields, envelope='action')
+	def get(self, action_id):
+		return manager.get_action(id)
+
+class GetActionsByGoalID(Resource):
+	@marshal_with(action_fields, envelope='actions')
+	def get(self, goal_id):
+		return manager.get_actions(goal_id)
+		
+class PostNewAction(Resource):
+	def post(self):
+		args = parser.parse_args()
+		goal_id = args['goal_id']
+		description = args['description']		
+
+		new_action = Action(goal_id, description)
+		if new_action.validate():
+			manager.add_action(new_action)
+
+class EditAction(Resource):
+	def post(self):
+		pass

@@ -4,7 +4,7 @@ import config
 from db.database import db
 
 class Action(db.Model):
-	id = db.Column(db.Integer, primary_key=True)
+	action_id = db.Column(db.Integer, primary_key=True)
 	goal_id = db.Column(db.Integer)
 	description = db.Column(db.String(64))
 
@@ -13,15 +13,15 @@ class Action(db.Model):
 		self.description = description
 
 	def to_json(self):
-		return jsonify(status=200, id=self.id, goal_id=self.goal_id, description=self.description)
+		return jsonify(status=200, action_id=self.action_id, goal_id=self.goal_id, description=self.description)
 
 def action_from_json(json):
-	id = json['id']
+	action_id = json['action_id']
 	goal_id = json['goal_id']
 	description = json['description']
 
 	ret = Action(goal_id, description)
-	ret.id = id
+	ret.action_id = action_id
 	return ret
 
 def init_actions():

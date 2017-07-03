@@ -4,7 +4,7 @@ import config
 from db.database import db
 
 class Goal(db.Model):
-	id = db.Column(db.Integer, primary_key=True)
+	goal_id = db.Column(db.Integer, primary_key=True)
 	user_id = db.Column(db.Integer)
 	title = db.Column(db.String(64))
 
@@ -13,24 +13,24 @@ class Goal(db.Model):
 		self.title = title
 
 	def to_json(self):
-		return jsonify(status=200, id=self.id, user_id=self.user_id, title=self.title)
+		return jsonify(status=200, goal_id=self.goal_id, user_id=self.user_id, title=self.title)
 
 	def validate(self):
 		return True
 
 def goal_from_json(json):
-	id = json['id']
+	goal_id = json['goal_id']
 	user_id = json['user_id']
 	title = json['title']
 	ret = Goal(user_id, title)
-	ret.id = id
+	ret.goal_id = goal_id
 	return ret
 
 def init_goals():
 	g1 = Goal(1, 'Make sandwiches')
 	g2 = Goal(1, 'Save dolphins')
 	g3 = Goal(2, 'Fly')
-	g4 = Goal(2, 'Don''t disappear')
+	g4 = Goal(2, 'Don\'t disappear')
 	g5 = Goal(3, 'Scan UFOs')
 	g6 = Goal(3, 'Write articles')
 

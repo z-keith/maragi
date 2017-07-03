@@ -8,30 +8,30 @@ from common.action import Action
 
 class DBManager:
 
-	def get_user_ids(self):
-		return [user.id for user in User.query.all()]
+	def get_users(self):
+		return User.query.all()
 
-	def get_user(self, id=None, username=None):
-		if id:
-			return User.query.filter_by(id=id).first()
+	def get_user(self, user_id=None, username=None):
+		if user_id:
+			return User.query.filter_by(user_id=user_id).first()
 		if username:
 			return User.query.filter(func.lower(User.username)==func.lower(username)).first()
 		return None
 
-	def get_goal_ids(self, user_id):
-		return [goal.id for goal in Goal.query.filter_by(user_id=user_id).all()]
+	def get_goals(self, user_id):
+		return Goal.query.filter_by(user_id=user_id).all()
 
 	def get_goal(self, goal_id):
 		if goal_id:
-			return Goal.query.filter_by(id=goal_id).first()
+			return Goal.query.filter_by(goal_id=goal_id).first()
 		return None
 
-	def get_action_ids(self, goal_id):
-		return [action.id for action in Action.query.filter_by(goal_id=goal_id).all()]
+	def get_actions(self, goal_id):
+		return Action.query.filter_by(goal_id=goal_id).all()
 
 	def get_action(self, action_id):
 		if action_id:
-			return Action.query.filter_by(id=action_id).first()
+			return Action.query.filter_by(action_id=action_id).first()
 		return None
 
 	def add_user(self, user):

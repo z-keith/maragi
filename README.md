@@ -1,5 +1,5 @@
-todo: 
--	action creation
+todo:
+-	get/post error handling (pass login errors back to page, user not found, etc)
 -	user/goal/action validation
 -	fix apostrophes
 -	user edit
@@ -9,8 +9,11 @@ todo:
 -	goal delete
 -	action delete
 -	auth api/random auth ID
--	pass login errors back to page
 -	send id in header username and token in header password field of requests to pw-protected endpoints
--	fix dashboard login_required
--	optimize request count?
--	deletion
+-	require admin privileges to use /users or see other user data
+-	set up real/final routes
+-	deploy to DO
+-	lay out pages on paper
+-	build dashboard
+-	build settings page
+-	build home page

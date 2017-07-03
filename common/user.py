@@ -5,7 +5,7 @@ import config
 from db.database import db
 
 class User(db.Model):
-	id = db.Column(db.Integer, primary_key=True)
+	user_id = db.Column(db.Integer, primary_key=True)
 	username = db.Column(db.String(24), unique=True)
 	firstname = db.Column(db.String(20))
 	lastname = db.Column(db.String(20))
@@ -32,7 +32,7 @@ class User(db.Model):
 		return False
 
 	def get_id(self):
-		return str(self.id)
+		return str(self.user_id)
 
 	def hash_password(self, password):
 		self.hashed_password =sha512_crypt.hash(password)
@@ -44,20 +44,20 @@ class User(db.Model):
 		return sha512_crypt.verify(password, self.password_hash)
 
 	def to_json(self):
-		return jsonify(status=200, id=self.id, username=self.username, firstname=self.firstname, lastname=self.lastname, email=self.email, hashed_password=self.hashed_password)
+		return jsonify(status=200, user_id=self.user_id, username=self.username, firstname=self.firstname, lastname=self.lastname, email=self.email, hashed_password=self.hashed_password)
 
 def user_from_json(json):
-	id = json['id']
+	user_id = json['user_id']
 	username = json['username']
 
 	firstname = json['firstname']
 	lastname = json['lastname']
 
 	email = json['email']
-	hashed_password = json['hashed_password']
+	#hashed_password = json['hashed_password']
 
-	ret = User(username, firstname, lastname, email, hashed_password)
-	ret.id = id
+	ret = User(username, firstname, lastname, email)
+	ret.user_id = user_id
 	
 	return ret
 

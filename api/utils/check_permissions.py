@@ -14,7 +14,7 @@ def generate_auth_token(username):
 	user = manager.get_user(username=username)
 
 	s = Serializer(SERIALIZER_KEY)
-	return s.dumps({ 'id': user.id })
+	return s.dumps({ 'user_id': user.user_id })
 
 def verify_auth_token(token):
 	s = Serializer(SERIALIZER_KEY)
@@ -23,5 +23,5 @@ def verify_auth_token(token):
 	except BadSignature:
 		return None
 
-	return data['id']
+	return data['user_id']
 

@@ -11,30 +11,33 @@ auth = Blueprint('auth', __name__, template_folder='templates')
 
 @auth.route('/login', methods=['POST'])
 def login():
-	if not current_user.get_id():
-		username = request.form['username']
-		password = request.form['password']
-		
-		token_response = requests.post(url_for('api.requesttoken', _external=True), data={'username' : username, 'password' : password})
-		response_code = token_response.json()['status']
+	#if not current_user.get_id():
+	logout_user()
 
-		if response_code == 200:
-			token = token_response.json()['token']
-			validate_response = requests.post(url_for('api.validatetoken', _external=True), data={'token' : token})
+	username = request.form['username']
+	password = request.form['password']
+	
+	token_response = requests.post(url_for('api.requesttoken', _external=True), data={'username' : username, 'password' : password})
+	response_code = token_response.json()['status']
+	print(response_code)
+
+	if response_code == 200:
+		token = token_response.json()['token']
+		validate_response = requests.post(url_for('api.validatetoken', _external=True), data={'token' : token})
+		
+		user_id = validate_response.json()['user_id']
+		
+		user_response = requests.get(url_for('api.getuserbyuserid', user_id=user_id, _external=True))
+		user_json = user_response.json()['user']
+		user = user_from_json(user_json) 	
+		
+		login_user(user, remember=True)
+		current_user.token = token
+	else:
+		# login error
+		return redirect(url_for('home.index'))
 			
-			user_id = validate_response.json()['id']
-			
-			user_response = requests.get(url_for('api.userendpoint', id=user_id, _external=True))
-			user_json = user_response.json()
-			user = user_from_json(user_json) 	
-			
-			login_user(user, remember=True)
-			current_user.token = token
-		else:
-			# login error
-			return redirect(url_for('home.index'))
-			
-	return redirect(url_for('dash.dashboard'))
+	return redirect(url_for('home.index'))
 
 @auth.route("/logout")
 def logout():
@@ -47,7 +50,7 @@ login_manager.login_view = "home.index"
 
 @login_manager.user_loader
 def load_user(user_id):
-	user_response = requests.get(url_for('api.userendpoint', id=user_id, _external=True))
-	user_json = user_response.json()
+	user_response = requests.get(url_for('api.getuserbyuserid', user_id=user_id, _external=True))
+	user_json = user_response.json()['user']
 	user = user_from_json(user_json)
 	return user

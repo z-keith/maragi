@@ -1,5 +1,5 @@
 from flask import jsonify
-from flask_restful import Resource, reqparse
+from flask_restful import Resource, reqparse, fields, marshal_with
 
 from api.utils.db_manager import manager
 
@@ -9,22 +9,24 @@ parser = reqparse.RequestParser()
 parser.add_argument('user_id')
 parser.add_argument('title')
 
-class GoalEndpoint(Resource):
-	def get(self, id):
-		goal = manager.get_goal(id)
-		if goal:
-			return goal.to_json()
-		else:
-			return jsonify(message='goal not found', status=404)
+goal_fields = {
+	'goal_id' : fields.Integer,
+	'user_id' : fields.Integer,
+	'title' : fields.String,
+	'actions_url' : fields.Url('api.getactionsbygoalid', absolute=True)
+}
 
-class GoalsEndpoint(Resource):
-	def get(self, id):
-		goals = manager.get_goal_ids(id)
-		if goals:
-			return jsonify(goals = goals, status = 200)
-		else:
-			return jsonify(message='goals for user not found', status=404)
+class GetGoalByGoalID(Resource):
+	@marshal_with(goal_fields, envelope='goal')
+	def get(self, goal_id):
+		return manager.get_goal(goal_id)
 
+class GetGoalsByUserID(Resource):
+	@marshal_with(goal_fields, envelope='goals')
+	def get(self, user_id):
+		return manager.get_goals(user_id)
+
+class PostNewGoal(Resource):
 	def post(self):
 		args = parser.parse_args()
 		user_id = args['user_id']
@@ -33,3 +35,7 @@ class GoalsEndpoint(Resource):
 		new_goal = Goal(user_id, title)
 		if new_goal.validate():
 			manager.add_goal(new_goal)
+
+class EditGoal(Resource):
+	def post(self):
+		pass

@@ -21,7 +21,7 @@ class ValidateToken(Resource):
 	def post(self):
 		args = parser.parse_args()
 		token = args['token']
-		id = verify_auth_token(token)
-		if id:
-			return jsonify(id=id, status=200)
+		user_id = verify_auth_token(token)
+		if user_id:
+			return jsonify(user_id=user_id, status=200)
 		return jsonify(message='invalid token', status=401)
