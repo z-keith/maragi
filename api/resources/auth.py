@@ -1,5 +1,5 @@
 from flask import jsonify
-from flask_restful import Resource, reqparse
+from flask_restful import Resource, reqparse, abort
 
 from api.utils.check_permissions import check_password, generate_auth_token, verify_auth_token
 
@@ -15,7 +15,8 @@ class RequestToken(Resource):
 			token = generate_auth_token(args['username'])
 			if token:
 				return jsonify(token=token.decode('ascii'), status=200)
-		return jsonify(message='invalid username or password', status=401)
+		else:
+			abort(401, description='invalid username or password')
 		
 class ValidateToken(Resource):
 	def post(self):

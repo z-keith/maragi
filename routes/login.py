@@ -18,7 +18,7 @@ def login():
 	password = request.form['password']
 	
 	token_response = requests.post(url_for('api.requesttoken', _external=True), data={'username' : username, 'password' : password})
-	response_code = token_response.json()['status']
+	response_code = token_response.status_code
 	print(response_code)
 
 	if response_code == 200:
@@ -35,7 +35,7 @@ def login():
 		current_user.token = token
 	else:
 		# login error
-		return redirect(url_for('home.index'))
+		return redirect(url_for('dash.dashboard'))
 			
 	return redirect(url_for('home.index'))
 

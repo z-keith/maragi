@@ -1,5 +1,5 @@
 todo:
--	get/post error handling (pass login errors back to page, user not found, etc)
+-	get/post error handling (pass login errors back to page, user not found, etc) (see implementation in login.login() and auth.requesttoken()
 -	user/goal/action validation
 -	fix apostrophes
 -	user edit
