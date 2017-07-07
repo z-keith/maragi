@@ -1,7 +1,6 @@
 todo:
--	get/post error handling (pass login errors back to page, user not found, etc) (see implementation in login.login() and auth.requesttoken()
-	-	catch redirect to homepage from failed logins
 -	user/goal/action validation
+-	safe_url
 -	fix apostrophes
 -	user edit
 -	goal edit

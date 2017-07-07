@@ -6,4 +6,4 @@ dash = Blueprint('dash', __name__, template_folder='templates')
 @dash.route('/dashboard')
 @login_required
 def dashboard():
-	return 'dashboard'
+	return render_template('dashboard.html')

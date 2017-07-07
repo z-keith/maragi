@@ -24,7 +24,6 @@ user_fields = {
 class GetUserByUserID(Resource):
 	@marshal_with(user_fields, envelope='user')
 	def get(self, user_id):
-		print('hit')
 		return manager.get_user(user_id=user_id)
 		
 class GetAllUsers(Resource):

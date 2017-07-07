@@ -14,14 +14,13 @@ def generate_auth_token(username):
 	user = manager.get_user(username=username)
 
 	s = Serializer(SERIALIZER_KEY)
-	return s.dumps({ 'user_id': user.user_id })
+	return user.user_id, s.dumps({ 'user_id': user.user_id })
 
-def verify_auth_token(token):
+def verify_auth_token(user_id, token):
 	s = Serializer(SERIALIZER_KEY)
 	try:
 		data = s.loads(token)
 	except BadSignature:
-		return None
+		return False
 
-	return data['user_id']
-
+	return data['user_id'] == int(user_id)

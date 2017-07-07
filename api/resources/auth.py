@@ -7,22 +7,24 @@ parser = reqparse.RequestParser()
 parser.add_argument('username')
 parser.add_argument('password')
 parser.add_argument('token')
+parser.add_argument('user_id')
 
 class RequestToken(Resource):
 	def post(self):
 		args = parser.parse_args()
 		if check_password(args['username'], args['password']):
-			token = generate_auth_token(args['username'])
+			user_id, token = generate_auth_token(args['username'])
 			if token:
-				return jsonify(token=token.decode('ascii'), status=200)
+				return jsonify(user_id= user_id, token=token.decode('ascii'), status=200)
 		else:
 			abort(401, description='invalid username or password')
 		
 class ValidateToken(Resource):
 	def post(self):
 		args = parser.parse_args()
+		user_id = args['user_id']
 		token = args['token']
-		user_id = verify_auth_token(token)
-		if user_id:
+		token_as_expected = verify_auth_token(user_id, token)
+		if token_as_expected:
 			return jsonify(user_id=user_id, status=200)
-		return jsonify(message='invalid token', status=401)
+		abort(401, description='invalid token')
