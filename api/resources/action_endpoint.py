@@ -26,14 +26,19 @@ class GetActionsByGoalID(Resource):
 		return manager.get_actions(goal_id)
 		
 class PostNewAction(Resource):
+	@marshal_with(action_fields, envelope='action')
 	def post(self):
 		args = parser.parse_args()
 		goal_id = args['goal_id']
 		description = args['description']		
 
 		new_action = Action(goal_id, description)
-		if new_action.validate():
+		validate_action_success, validate_action_reason = manager.validate_action(new_action)
+		if validate_action_success:
 			manager.add_action(new_action)
+			return new_action
+		else:
+			abort(403, description=validate_action_reason)
 
 class EditAction(Resource):
 	def post(self):

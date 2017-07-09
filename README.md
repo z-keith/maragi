@@ -1,7 +1,6 @@
 todo:
--	user/goal/action validation
+-	user/goal/action validation [continue as more fields are added to each]
 -	safe_url
--	fix apostrophes
 -	user edit
 -	goal edit
 -	action edit

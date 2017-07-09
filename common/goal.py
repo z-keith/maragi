@@ -15,9 +15,6 @@ class Goal(db.Model):
 	def to_json(self):
 		return jsonify(status=200, goal_id=self.goal_id, user_id=self.user_id, title=self.title)
 
-	def validate(self):
-		return True
-
 def goal_from_json(json):
 	goal_id = json['goal_id']
 	user_id = json['user_id']

@@ -1,5 +1,5 @@
 from flask import jsonify
-from flask_restful import Resource, reqparse, fields, marshal_with
+from flask_restful import Resource, reqparse, fields, marshal_with, abort
 
 from api.utils.db_manager import manager
 
@@ -24,7 +24,11 @@ user_fields = {
 class GetUserByUserID(Resource):
 	@marshal_with(user_fields, envelope='user')
 	def get(self, user_id):
-		return manager.get_user(user_id=user_id)
+		user = manager.get_user(user_id=user_id)
+		if user:
+			return user
+		else:
+			abort(404, description='user not found')
 		
 class GetAllUsers(Resource):
 	@marshal_with(user_fields, envelope='users')
@@ -32,6 +36,7 @@ class GetAllUsers(Resource):
 		return manager.get_users()
 
 class PostNewUser(Resource):
+	@marshal_with(user_fields, envelope='user')
 	def post(self):
 		args = parser.parse_args()
 		username = args['username']
@@ -42,9 +47,15 @@ class PostNewUser(Resource):
 
 		new_user = User(username, firstname, lastname, email)
 		new_user.hash_password(password)
-		if new_user.validate():
+
+		validate_user_success, validate_user_reason = manager.validate_user()
+		if validate_user_success:
 			manager.add_user(new_user)
+			return new_user
+		else:
+			abort(403, description=validate_user_reason)
 
 class EditUser(Resource):
+	@marshal_with(user_fields, envelope='user')
 	def post(self):
 		pass

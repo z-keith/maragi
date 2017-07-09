@@ -37,9 +37,6 @@ class User(db.Model):
 	def hash_password(self, password):
 		self.hashed_password =sha512_crypt.hash(password)
 
-	def validate(self):
-		return True
-
 	def verify_password(self, password):
 		return sha512_crypt.verify(password, self.password_hash)
 

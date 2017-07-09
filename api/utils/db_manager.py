@@ -1,4 +1,5 @@
 from sqlalchemy import func
+from email.utils import parseaddr
 
 import config
 from db.database import db
@@ -7,6 +8,23 @@ from common.goal import Goal
 from common.action import Action
 
 class DBManager:
+
+	def validate_user(self, test_user):
+		# check if email is at least vaguely realistic (going to need to verify with email link)
+		if '@' not in parseaddr(test_user.email)[1]:
+			return False, 'Invalid email address'
+		# check if username already exists
+		if User.query.filter_by(username=test_user.username).first():
+			return False, 'Username already exists'
+		return True, ''
+
+	def validate_goal(self, test_goal):
+		if Goal.query.filter_by(user_id=test_goal.user_id, title=test_goal.title).first():
+			return False, 'title already in use'
+		return True, ''
+
+	def validate_action(self, test_action):
+		return True, ''
 
 	def get_users(self):
 		return User.query.all()
