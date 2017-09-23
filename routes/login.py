@@ -20,7 +20,7 @@ def login():
 		if 'next' in request.form:
 			next = request.form['next']
 		else:
-			next = None
+			next = url_for('dash.dashboard')
 		
 		token_response = requests.post(url_for('api.requesttoken', _external=True), data={'username' : username, 'password' : password})
 
@@ -59,8 +59,10 @@ def login():
 	else:
 		error = 'Please log in.'
 		next = request.args.get('next')
+		if not next:
+			next = url_for('dash.dashboard')
 
-	return render_template('login.html', error=error, next=next, loginform=LoginForm())
+	return render_template('login.html', error=error, loginform=LoginForm(next=next))
 	
 
 @auth.route("/logout")
@@ -81,4 +83,5 @@ def load_user(user_id):
 	return user
 
 def safe_url(target):
-	return True
+	safe = [url_for('dash.dashboard'), url_for('dash.settings'), url_for('home.index')]
+	return (target in safe)

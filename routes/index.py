@@ -43,4 +43,4 @@ def index():
 	else:
 		ngf = None
 
-	return render_template('index.html', users=user_list, loginform=LoginForm(), newuserform = NewUserForm(), newgoalform = ngf)
+	return render_template('index.html', users=user_list, loginform=LoginForm(next=url_for('dash.dashboard')), newuserform = NewUserForm(), newgoalform = ngf)

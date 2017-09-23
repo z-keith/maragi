@@ -29,10 +29,7 @@ class GetGoalsByUserID(Resource):
 	@marshal_with(goal_fields, envelope='goals')
 	def get(self, user_id):
 		goals = manager.get_goals(user_id)
-		if goals:
-			return goals
-		else:
-			abort(404, description='no goals for this user id')
+		return goals
 
 class PostNewGoal(Resource):
 	@marshal_with(goal_fields, envelope='goal')

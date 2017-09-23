@@ -35,7 +35,7 @@
 
 		<br>
 
-		<h1>Current user: {{current_user.id | e}} {{current_user.username | e}}</h1>
+		<h1>Current user: {{current_user.user_id | e or ''}} {{current_user.username | e or 'None'}}</h1>
 		{% for u in users %}
 		<h2>{{u.username | e}}</h2>
 			{% for g in u.goals %}
