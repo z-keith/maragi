@@ -7,8 +7,11 @@
 	<header>
 		<nav>
 			<a href="/">Home</a>
-			<a href="/login">Login</a>
-			<a href="/logout">Logout</a>
+			{% if current_user.user_id %}
+			<a href="/logout">Log Out</a>
+			{% else %}
+			<a href="/login">Log In</a>
+			{% endif %}
 			<a href="/dashboard">Dashboard</a>
 			<a href="/settings">Settings</a>
 		</nav>		

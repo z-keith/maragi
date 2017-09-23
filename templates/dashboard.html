@@ -4,4 +4,26 @@
 	{% if error %}
 		<p class=error><strong>Error:</strong> {{ error }} </p>
 	{% endif %}
+
+	<h2>{{user.username | e}}</h2>
+	{% for g in user.goals %}
+	<h3>{{g.title | e}}</h3>
+		{% for a in g.actions %}
+		<p>- {{a.description | e}}</p>
+		{% endfor %}
+	{% endfor %}
+
+	{% if newgoalform %}
+	<h1>Add Goal block</h1>
+	<form action="/add_goal" method="post">
+		{% for field in newgoalform %}
+		<tr>
+			<th>{{ field.label | safe }}</th>
+			<td>{{ field }}</td>
+		</tr>
+		{% endfor %}
+		<input type="submit" name="goal">
+	</form>
+	{% endif %}	
+
 {% endblock %}

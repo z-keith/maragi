@@ -9,7 +9,7 @@ from api.resources.action_endpoint import GetActionByActionID, GetActionsByGoalI
 api_bp = Blueprint('api', __name__, template_folder='templates')
 api = Api(api_bp)
 
-api.add_resource(GetAllUsers, '/users')
+#api.add_resource(GetAllUsers, '/users')
 api.add_resource(GetGoalsByUserID, '/user/<int:user_id>/goals')
 api.add_resource(GetActionsByGoalID, '/goal/<int:goal_id>/actions')
 

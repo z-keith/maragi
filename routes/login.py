@@ -57,10 +57,10 @@ def login():
 			error = token_response.json()['description']
 
 	else:
-		error = 'Please log in.'
 		next = request.args.get('next')
 		if not next:
 			next = url_for('dash.dashboard')
+		error = None
 
 	return render_template('login.html', error=error, loginform=LoginForm(next=next))
 	

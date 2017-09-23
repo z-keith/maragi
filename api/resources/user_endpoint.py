@@ -48,7 +48,7 @@ class PostNewUser(Resource):
 		new_user = User(username, firstname, lastname, email)
 		new_user.hash_password(password)
 
-		validate_user_success, validate_user_reason = manager.validate_user()
+		validate_user_success, validate_user_reason = manager.validate_user(new_user)
 		if validate_user_success:
 			manager.add_user(new_user)
 			return new_user

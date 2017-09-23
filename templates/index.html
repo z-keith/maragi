@@ -1,48 +1,33 @@
 {% extends "layout.html" %}
 {% block body %}
-		<h1>Login block</h1>
-		<form action="/login" method="post">
-			{% for field in loginform %}
-			<tr>
-				<th>{{ field.label | safe }}</th>
-				<td>{{ field }}</td>
-			</tr>
-			{% endfor %}
-			<input type="submit" name="login">
-		</form>
-		<h1>New User block</h1>
-		<form action="/add_user" method="post">
-			{% for field in newuserform %}
-			<tr>
-				<th>{{ field.label | safe }}</th>
-				<td>{{ field }}</td>
-			</tr>
-			{% endfor %}
-			<input type="submit" name="user">
-		</form>
-		{% if newgoalform %}
-		<h1>Add Goal block</h1>
-		<form action="/add_goal" method="post">
-			{% for field in newgoalform %}
-			<tr>
-				<th>{{ field.label | safe }}</th>
-				<td>{{ field }}</td>
-			</tr>
-			{% endfor %}
-			<input type="submit" name="goal">
-		</form>
-		{% endif %}
-
-		<br>
-
-		<h1>Current user: {{current_user.user_id | e or ''}} {{current_user.username | e or 'None'}}</h1>
-		{% for u in users %}
-		<h2>{{u.username | e}}</h2>
-			{% for g in u.goals %}
-			<h3>{{g.title | e}}</h3>
-				{% for a in g.actions %}
-				<p>- {{a.description | e}}</p>
-				{% endfor %}
-			{% endfor %}	
+	{% if loginform %}
+	<h1>Login block</h1>
+	<form action="/login" method="post">
+		{% for field in loginform %}
+		<tr>
+			<th>{{ field.label | safe }}</th>
+			<td>{{ field }}</td>
+		</tr>
 		{% endfor %}
+		<input type="submit" name="login">
+	</form>
+	{% endif %}
+
+	{% if newuserform %}
+	<h1>New User block</h1>
+	<form action="/add_user" method="post">
+		{% for field in newuserform %}
+		<tr>
+			<th>{{ field.label | safe }}</th>
+			<td>{{ field }}</td>
+		</tr>
+		{% endfor %}
+		<input type="submit" name="user">
+	</form>
+	{% endif %}
+
+	<br>
+
+	<h1>Current user: {{current_user.user_id | e or ''}} {{current_user.username | e or 'None'}}</h1>
+		
 {% endblock %}
