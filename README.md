@@ -1,9 +1,10 @@
+[![Build Status](https://travis-ci.org/z-keith/maragi.svg?branch=master)](https://travis-ci.org/z-keith/maragi)
+
 todo:
 -	user/goal/action validation [done, but continue as more fields are added to each]
 -	safe_url [done, but observe as more login_required pages are added]
 
 -	send id in header username and token in header password field of requests to pw-protected endpoints (get, add, edit, delete)
--	require admin privileges to use /users or see other user data
 
 -	user edit
 -	goal edit
