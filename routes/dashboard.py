@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, url_for
+from flask import Blueprint, render_template, url_for, session
 from flask_login import login_required, current_user
 import requests
 
@@ -13,11 +13,12 @@ dash = Blueprint('dash', __name__, template_folder='templates')
 @dash.route('/dashboard')
 @login_required
 def dashboard():
-	user_json = requests.post(url_for('api.getuserbyuserid', user_id=current_user.user_id, _external=True)).json()['user']
+	user_json = requests.post(url_for('api.getuserbyuserid', user_id=current_user.user_id, _external=True), data={'token':session['token']}).json()['user']
+
 	user = user_from_json(user_json)
 		
 	user.goals = list()
-	goal_json_list = requests.get(user_json['goals_url']).json()['goals']
+	goal_json_list = requests.post(user_json['goals_url'], data={'token' : session['token'], 'user_id' : session['user_id']}).json()['goals']
 
 	for goal_json in goal_json_list:
 			
@@ -25,7 +26,7 @@ def dashboard():
 		user.goals.append(goal)
 
 		goal.actions = list()
-		action_json_list = requests.get(goal_json['actions_url']).json()['actions']
+		action_json_list = requests.post(goal_json['actions_url'], data={'token': session['token'], 'user_id' : session['user_id']}).json()['actions']
 
 		for action_json in action_json_list:
 			action = action_from_json(action_json)

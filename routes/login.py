@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, request, redirect, url_for, flash, abort
+from flask import Blueprint, render_template, request, redirect, url_for, flash, abort, session
 from flask_login import LoginManager, login_required, login_user, logout_user, current_user
 from passlib.hash import sha512_crypt
 import requests
@@ -32,14 +32,15 @@ def login():
 			
 			if validate_response.status_code == 200 and int(validate_response.json()['user_id']) == user_id:
 				
-				user_response = requests.post(url_for('api.getuserbyuserid', user_id=user_id, _external=True))
+				user_response = requests.post(url_for('api.getuserbyuserid', user_id=user_id, _external=True), data={'token' : token})
 				
 				if user_response.status_code == 200:
 					user_json = user_response.json()['user']
 					user = user_from_json(user_json) 	
 					
 					login_user(user, remember=True)
-					current_user.token = token
+					session['token'] = token
+					session['user_id'] = user_id
 					flash('Login successful!')
 
 					if not safe_url(next):
@@ -68,6 +69,7 @@ def login():
 @auth.route("/logout")
 def logout():
 	if current_user.get_id():
+		session['token'] = None
 		logout_user()
 		flash('Logout successful!')
 	return redirect(url_for('home.index'))
@@ -77,7 +79,11 @@ login_manager.login_view = "auth.login"
 
 @login_manager.user_loader
 def load_user(user_id):
-	user_response = requests.post(url_for('api.getuserbyuserid', user_id=user_id, _external=True))
+	if 'token' not in session:
+		return None
+	user_response = requests.post(url_for('api.getuserbyuserid', user_id=user_id, _external=True), data = {'token' : session['token']})
+	if 'user' not in user_response.json():
+		return None
 	user_json = user_response.json()['user']
 	user = user_from_json(user_json)
 	return user

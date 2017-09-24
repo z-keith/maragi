@@ -47,11 +47,18 @@ def user_from_json(json):
 	user_id = json['user_id']
 	username = json['username']
 
-	firstname = json['firstname']
-	lastname = json['lastname']
-
-	email = json['email']
-	#hashed_password = json['hashed_password']
+	if 'firstname' in json:
+		firstname = json['firstname']
+	else:
+		firstname = None
+	if 'lastname' in json:
+		lastname = json['lastname']
+	else:
+		lastname = None
+	if 'email' in json:
+		email = json['email']
+	else:
+		email = None
 
 	ret = User(username, firstname, lastname, email)
 	ret.user_id = user_id

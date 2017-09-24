@@ -2,12 +2,14 @@ from flask import jsonify
 from flask_restful import Resource, reqparse, fields, marshal_with, abort
 
 from api.utils.db_manager import manager
+from api.utils.check_permissions import verify_auth_token
 
 from common.goal import Goal
 
 parser = reqparse.RequestParser()
 parser.add_argument('user_id')
 parser.add_argument('title')
+parser.add_argument('token')
 
 goal_fields = {
 	'goal_id' : fields.Integer,
@@ -18,7 +20,11 @@ goal_fields = {
 
 class GetGoalByGoalID(Resource):
 	@marshal_with(goal_fields, envelope='goal')
-	def get(self, goal_id):
+	def post(self, goal_id):
+		token = parser.parse_args()['token']
+		user_id = parser.parse_args()['user_id']
+		if not verify_auth_token(user_id, token):
+			abort(403, description='token does not match the user requested')
 		goal = manager.get_goal(goal_id)
 		if goal:
 			return goal
@@ -27,7 +33,10 @@ class GetGoalByGoalID(Resource):
 
 class GetGoalsByUserID(Resource):
 	@marshal_with(goal_fields, envelope='goals')
-	def get(self, user_id):
+	def post(self, user_id):
+		token = parser.parse_args()['token']
+		if not verify_auth_token(user_id, token):
+			abort(403, description='token does not match the user requested')
 		goals = manager.get_goals(user_id)
 		return goals
 
@@ -48,5 +57,16 @@ class PostNewGoal(Resource):
 
 class EditGoal(Resource):
 	@marshal_with(goal_fields, envelope='goal')
-	def post(self):
-		pass
+	def post(self, goal_id):
+		token = parser.parse_args()['token']
+		user_id = parser.parse_args()['user_id']
+		if not verify_auth_token(user_id, token):
+			abort(403, description='token does not match the user requested')
+		
+
+class DeleteGoal(Resource):
+	def post(self, goal_id):
+		token = parser.parse_args()['token']
+		user_id = parser.parse_args()['user_id']
+		if not verify_auth_token(user_id, token):
+			abort(403, description='token does not match the user requested')

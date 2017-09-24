@@ -12,9 +12,8 @@ parser.add_argument('firstname')
 parser.add_argument('lastname')
 parser.add_argument('email')
 parser.add_argument('password')
-
-token_parse = reqparse.RequestParser()
-token_parse.add_argument
+parser.add_argument('user_id')
+parser.add_argument('token')
 
 user_fields = {
 	'user_id' : fields.Integer,
@@ -28,6 +27,9 @@ user_fields = {
 class GetUserByUserID(Resource):
 	@marshal_with(user_fields, envelope='user')
 	def post(self, user_id):
+		token = parser.parse_args()['token']
+		if not verify_auth_token(user_id, token):
+			abort(403, description='token does not match the user requested')
 		user = manager.get_user(user_id=user_id)
 		if user:
 			return user
@@ -61,5 +63,7 @@ class PostNewUser(Resource):
 
 class EditUser(Resource):
 	@marshal_with(user_fields, envelope='user')
-	def post(self):
-		pass
+	def post(self, user_id):
+		token = parser.parse_args()['token']
+		if not verify_auth_token(user_id, token):
+			abort(403, description='token does not match the user requested')
