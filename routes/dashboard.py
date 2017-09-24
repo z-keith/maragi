@@ -13,7 +13,7 @@ dash = Blueprint('dash', __name__, template_folder='templates')
 @dash.route('/dashboard')
 @login_required
 def dashboard():
-	user_json = requests.get(url_for('api.getuserbyuserid', user_id=current_user.user_id, _external=True)).json()['user']
+	user_json = requests.post(url_for('api.getuserbyuserid', user_id=current_user.user_id, _external=True)).json()['user']
 	user = user_from_json(user_json)
 		
 	user.goals = list()

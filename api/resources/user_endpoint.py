@@ -2,6 +2,7 @@ from flask import jsonify
 from flask_restful import Resource, reqparse, fields, marshal_with, abort
 
 from api.utils.db_manager import manager
+from api.utils.check_permissions import verify_auth_token
 
 from common.user import User
 
@@ -11,6 +12,9 @@ parser.add_argument('firstname')
 parser.add_argument('lastname')
 parser.add_argument('email')
 parser.add_argument('password')
+
+token_parse = reqparse.RequestParser()
+token_parse.add_argument
 
 user_fields = {
 	'user_id' : fields.Integer,
@@ -23,7 +27,7 @@ user_fields = {
 
 class GetUserByUserID(Resource):
 	@marshal_with(user_fields, envelope='user')
-	def get(self, user_id):
+	def post(self, user_id):
 		user = manager.get_user(user_id=user_id)
 		if user:
 			return user

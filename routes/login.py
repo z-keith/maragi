@@ -32,7 +32,7 @@ def login():
 			
 			if validate_response.status_code == 200 and int(validate_response.json()['user_id']) == user_id:
 				
-				user_response = requests.get(url_for('api.getuserbyuserid', user_id=user_id, _external=True))
+				user_response = requests.post(url_for('api.getuserbyuserid', user_id=user_id, _external=True))
 				
 				if user_response.status_code == 200:
 					user_json = user_response.json()['user']
@@ -77,7 +77,7 @@ login_manager.login_view = "auth.login"
 
 @login_manager.user_loader
 def load_user(user_id):
-	user_response = requests.get(url_for('api.getuserbyuserid', user_id=user_id, _external=True))
+	user_response = requests.post(url_for('api.getuserbyuserid', user_id=user_id, _external=True))
 	user_json = user_response.json()['user']
 	user = user_from_json(user_json)
 	return user
