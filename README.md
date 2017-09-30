@@ -17,4 +17,5 @@
 -	lay out pages on paper
 -	build dashboard
 -	build settings page
+-   build account creation
 -	build home page

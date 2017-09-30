@@ -4,7 +4,11 @@ python:
 # command to install dependencies
 install:
   - pip install -r requirements.txt
+services:
+  - postgresql
 # command to run tests
+before_script:
+  - psql -c 'create database maragi_tdd_test;' -U postgres
 script:
   - pytest
 notifications:
