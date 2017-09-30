@@ -2,6 +2,7 @@ flask
 flask-login
 flask-wtf
 flask-sqlalchemy
+psycopg2
 flask-restful
 passlib
 requests

@@ -8,7 +8,7 @@
             ],
             "folder_exclude_patterns":
             [
-                "__pycache__"
+                "__pycache__", ".cache"
             ],
             "path": "."
         }
