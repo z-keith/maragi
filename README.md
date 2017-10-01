@@ -9,7 +9,7 @@
 -	database setup (postgres, this time)
 -	data model (user, goal, action)
 -	server-side of login and authentication
--	data access endpoints (RESTful get, add, edit, remove - all with server-side validation)
+-	data access endpoints (RESTful get, add, edit, remove - all with HTTPS and server-side validation)
 ## Client side
 -	login/logout/load-user functions
 -	parse user/goal/action responses
