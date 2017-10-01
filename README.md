@@ -22,12 +22,12 @@
 -	build home page
 ---
 #Postgres setup:
-sudo su
-passwd postgres
-su postgres
-psql
-\password postgres
-createdb *****
-CREATE USER zkeith;
-GRANT ALL PRIVILEGES ON DATABASE ***** TO zkeith;
-\q
+1. sudo su
+2. passwd postgres
+3. su postgres
+4. psql
+5. \password postgres
+6. createdb *****
+7. CREATE USER zkeith;
+8. GRANT ALL PRIVILEGES ON DATABASE ***** TO zkeith;
+9. \q
