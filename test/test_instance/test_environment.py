@@ -4,7 +4,7 @@ def test_environment():
 	import os
 	
 	assert os.getenv('SECRET') == "testing_secret???"
-	assert os.getenv('DATABASE_URL') == "postgresql://localhost/maragi_tdd_test"
+	assert os.getenv('DATABASE_URL') == "postgresql://localhost/maragi_test_db"
 	assert os.getenv('FLASK_APP') == "run.py"
 
 def test_config():
