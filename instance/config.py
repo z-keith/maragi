@@ -22,7 +22,7 @@ class ProductionConfig(Config):
     """Configurations for Production."""
     DEBUG = False
     TESTING = False
-    SQLALCHEMY_DATABASE_URI = 'postgresql://localhost/maragi_prod_db'
+    SQLALCHEMY_DATABASE_URI = 'postgresql:///maragi_prod_db'
 
 app_config = {
     'development': DevelopmentConfig,

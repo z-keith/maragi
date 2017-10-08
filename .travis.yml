@@ -12,6 +12,6 @@ env:
 before_script:
   - psql -c 'create database maragi_test_db;' -U postgres
 script:
-  - pytest
+  - nose2
 notifications:
   email: false

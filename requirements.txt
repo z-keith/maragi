@@ -10,5 +10,5 @@ psycopg2
 passlib
 requests
 
-pytest
+nose2
 coverage
