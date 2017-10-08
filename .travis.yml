@@ -7,7 +7,7 @@ install:
 services:
   - postgresql
 env:
-  - FLASK_APP=run.py SECRET=testing_secret??? APP_SETTINGS=testing DATABASE_URL=postgresql://localhost/maragi_test_db
+  - FLASK_APP=run.py SECRET=testing_secret??? APP_SETTINGS=testing DATABASE_URL=postgresql:///maragi_test_db
 # command to run tests
 before_script:
   - psql -c 'create database maragi_test_db;' -U postgres
