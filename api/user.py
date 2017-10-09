@@ -1,4 +1,5 @@
 from passlib.hash import sha512_crypt
+from sqlalchemy.exc import IntegrityError
 
 from instance.db import db
 
@@ -6,7 +7,7 @@ class User(db.Model):
 
 	user_id = db.Column(db.Integer, primary_key=True)
 	username = db.Column(db.String(24), unique=True)
-	email = db.Column(db.String(80))
+	email = db.Column(db.String(80), unique=True)
 	hashed_password = db.Column(db.String(120))
 	
 	firstname = db.Column(db.String(64))
@@ -51,7 +52,26 @@ class User(db.Model):
 
 	# database interaction functions
 	def add(self):
-		db.session.add(self)
-		db.session.commit()
+		try:
+			db.session.add(self)
+			db.session.commit()
+			return self.user_id, "Added new user successfully."
+		except IntegrityError as e:
+			return None, str(e.orig.diag.message_primary)
+		except:
+			return None, "An unknown error occurred."
 
-		return True
+	@staticmethod
+	def get_all():
+		pass
+
+	@staticmethod
+	def get_by_id(id):
+		pass
+
+	def edit(self):
+		pass
+
+	def delete(self):
+		pass
+

@@ -6,7 +6,7 @@
 
 # todo: test-driven edition!
 ## Server side
--	database setup (postgres, this time)
+-	~~database setup (postgres, this time)~~
 -	data model (user, goal, action)
 -	server-side of login and authentication
 -	data access endpoints (RESTful get, add, edit, remove - all with HTTPS and server-side validation)

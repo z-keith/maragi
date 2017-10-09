@@ -12,9 +12,9 @@ class environmentTest(unittest.TestCase):
 
 	def test_environment(self):	
 		import os	
-		assert os.getenv('SECRET') == "testing_secret???"
-		assert os.getenv('DATABASE_URL') == "postgresql:///maragi_test_db"
-		assert os.getenv('FLASK_APP') == "run.py"
+		self.assertEqual(os.getenv('SECRET'), "testing_secret???", msg="Secret set incorrectly (or test not updated)")
+		self.assertEqual(os.getenv('DATABASE_URL'), "postgresql:///maragi_test_db", msg="Database path set incorrectly (or test not updated)")
+		self.assertEqual(os.getenv('FLASK_APP'), "run.py", msg="Run command set incorrectly")
 
 	def test_config(self):
 		import os
@@ -22,7 +22,7 @@ class environmentTest(unittest.TestCase):
 		
 		app = create_app('testing')
 		
-		assert app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] == False
-		assert app.config['CSRF_ENABLED'] == True
-		assert app.config['SECRET_KEY'] == os.getenv('SECRET')
-		assert app.config['SQLALCHEMY_DATABASE_URI'] == os.getenv('DATABASE_URL')
+		self.assertFalse(app.config['SQLALCHEMY_TRACK_MODIFICATIONS'], msg="Track_modifications not disabled")
+		self.assertTrue(app.config['CSRF_ENABLED'], msg="CSRF disabled")
+		self.assertEqual(app.config['SECRET_KEY'], os.getenv('SECRET'), msg="Secret loaded incorrectly")
+		self.assertEqual(app.config['SQLALCHEMY_DATABASE_URI'], os.getenv('DATABASE_URL'), msg="Database path loaded incorrectly")
