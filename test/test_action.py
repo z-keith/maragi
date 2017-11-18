@@ -9,10 +9,11 @@ class actionTest(unittest.TestCase):
 
 	@classmethod
 	def setUpClass(cls):
-		actionTest.app = create_app('testing')
+		# actionTest.app = create_app('testing')
+		pass
 
 	def setUp(self):
-		pass
+		actionTest.app = create_app('testing')
 
 	def tearDown(self):
 		pass
