@@ -4,7 +4,7 @@ from flask import Flask
 
 # local import
 from instance.config import app_config
-from instance.db import db
+from instance.db import db, init_testdb
 
 def create_app(config_name):
     app = Flask(__name__)
@@ -18,5 +18,8 @@ def create_app(config_name):
     with app.app_context():
     	db.drop_all()
     	db.create_all()
+
+    	if config_name=='testing':
+    		init_testdb()
     
     return app

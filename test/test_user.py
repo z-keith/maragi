@@ -42,9 +42,35 @@ class userTest(unittest.TestCase):
 			test_user_2 = User(username, firstname, lastname, email)
 			self.assertEqual(test_user_2.add()[1], msg_user_success, msg="User 2 not added successfully")
 
-			# adding a third user with new first and last names, but a repeat username and email
+			# adding a third user with new first and last names and email, but a repeat username
 			# should not work
 			firstname = "Notford"
 			lastname = "Notprefect"
+			email = "unused_email@gmail.com"
 			test_user_3 = User(username, firstname, lastname, email)
-			self.assertEqual(test_user_3.add()[0], None, msg="User with duplicate username/email allowed to add")
+			self.assertEqual(test_user_3.add()[0], None, msg="User with duplicate username allowed to add")
+
+			# adding a fourth user with new first and last names and username, but a repeat email
+			# should not work
+			firstname = "Notford"
+			lastname = "Notprefect"
+			username = "Ix_v4"
+			email = "gigatowel@hotmail.com"
+			test_user_4 = User(username, firstname, lastname, email)
+			self.assertEqual(test_user_4.add()[0], None, msg="User with duplicate email allowed to add")
+
+	def test_user_get_all(self):
+		with userTest.app.app_context():
+			pass
+
+	def test_user_get_id(self):
+		with userTest.app.app_context():
+			pass
+
+	def test_user_edit(self):
+		with userTest.app.app_context():
+			pass
+
+	def test_user_delete(self):
+		with userTest.app.app_context():
+			pass
