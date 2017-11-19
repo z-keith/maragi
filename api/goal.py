@@ -96,9 +96,9 @@ class Goal(db.Model):
 			new_milliscore = self.current_milliscore + d_milliscore
 
 		# round numbers that are very close to 1/4, 1/2, or whole numbers to account for people counting 1/3 or 1/6 of something
-		diff_from_round = 125 - abs(125-(new_milliscore%250))
-		if diff_from_round in [1,2,3]:
-			new_milliscore = round(new_milliscore/250)*250
+		diff_from_round = new_milliscore%100
+		if diff_from_round in [1,2,98,99]: #.167*6=1.002, 1-ans=.998, .333*3=.999, 1-ans=.001
+			new_milliscore = round(new_milliscore/100)*100
 
 		return self.edit(current_milliscore=new_milliscore)
 

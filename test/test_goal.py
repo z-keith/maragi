@@ -22,7 +22,7 @@ class goalTest(unittest.TestCase):
 		with goalTest.app.app_context():
 			g1 = Goal(1, 'Make 100 unloved children', 100000)
 			id, message = g1.add()
-			self.assertEqual(id, 7)
+			self.assertEqual(id, 7, msg="Goal not created?")
 
 	def test_goal_get_all(self):
 		with goalTest.app.app_context():
@@ -74,33 +74,33 @@ class goalTest(unittest.TestCase):
 		with goalTest.app.app_context():
 			goal, msg = Goal.get_by_id(1)
 			goal.increment_milliscore(333)
-			self.assertEqual(goal.current_milliscore, 333)
+			self.assertEqual(goal.current_milliscore, 333, msg="Milliscore not increased")
 			goal.increment_milliscore(333)
-			self.assertEqual(goal.current_milliscore, 666)
+			self.assertEqual(goal.current_milliscore, 666, msg="Milliscore not increased")
 			goal.increment_milliscore(333)
-			self.assertEqual(goal.current_milliscore, 1000)
+			self.assertEqual(goal.current_milliscore, 1000, msg="Milliscore not increased or rounding incorrect")
 
 			goal4, msg = Goal.get_by_id(4)
 			goal4.increment_milliscore(333)
-			self.assertEqual(goal4.current_milliscore, 667)
+			self.assertEqual(goal4.current_milliscore, 667, msg="Milliscore not decreased")
 			goal4.increment_milliscore(333)
-			self.assertEqual(goal4.current_milliscore, 334)
+			self.assertEqual(goal4.current_milliscore, 334, msg="Milliscore not decreased")
 			goal4.increment_milliscore(333)
-			self.assertEqual(goal4.current_milliscore, 0)
+			self.assertEqual(goal4.current_milliscore, 0, msg="Milliscore not decreased or rounding incorrect")
 
 	def test_goal_delete(self):
 		with goalTest.app.app_context():
 			# valid delete
 			g1, response = Goal.get_by_id(1)
 			g1_id, response = g1.delete()
-			self.assertEqual(g1_id, 1)
+			self.assertEqual(g1_id, 1, msg="Deleted wrong goal or returned wrong value")
 
 			# attempt to modify/delete deleted item
 			g1_id, response = g1.delete()
-			self.assertIsNone(g1_id)
+			self.assertIsNone(g1_id, msg="Returned wrong value when deleting a deleted goal")
 			self.assertEqual(response, "Goal already deleted.")
 			g1, response = g1.edit(title="So much sandwich")
-			self.assertIsNone(g1)
+			self.assertIsNone(g1, msg="Returned wrong value when editing a deleted goal")
 			self.assertEqual(response, "Goal previously deleted.")
 
 	def test_goal_reactivate(self):
@@ -110,28 +110,28 @@ class goalTest(unittest.TestCase):
 			self.assertEqual(g1_id, 1)
 
 			g1, response = Goal.reactivate(1)
-			self.assertFalse(g1.deleted)
+			self.assertFalse(g1.deleted, msg="Deleted attribute still set to false")
 
 			g3, response = Goal.reactivate(3)
-			self.assertFalse(g3.deleted)
+			self.assertFalse(g3.deleted, msg="Reactivating active goal deactivates it")
 
 			g7, response = Goal.reactivate(7)
-			self.assertIsNone(g7)
+			self.assertIsNone(g7, msg="Wrong response to reactivating nonexistant goal")
 
 	def test_goal_validate(self):
 		with goalTest.app.app_context():
 			g = Goal(1, "test", 1000)
 			valid, messages = g.validate()
-			self.assertTrue(valid)
+			self.assertTrue(valid, msg="Incorrectly marked as invalid")
 
 			g.user_id = 'a'
 			valid, messages = g.validate()
-			self.assertFalse(valid)
+			self.assertFalse(valid, msg="Incorrectly marked as invalid [char user_id]")
 
 			g.current_milliscore = 'a'
 			valid, messages = g.validate()
-			self.assertFalse(valid)
+			self.assertFalse(valid, msg="Incorrectly marked as invalid [char current_milliscore]")
 
 			g.target_milliscore = 'a'
 			valid, messages = g.validate()
-			self.assertFalse(valid)
+			self.assertFalse(valid, msg="Incorrectly marked as invalid [char target_milliscore]")

@@ -48,11 +48,15 @@ class User(db.Model):
 
 
 	# authentication functions
-	def hash_password(self, password):
-		self.hashed_password =sha512_crypt.hash(password)
+	@staticmethod
+	def hash_password(password):
+		return sha512_crypt.hash(password)
+
+	def set_password(self, hashed_password):
+		self.hashed_password = hashed_password
 
 	def verify_password(self, password):
-		return sha512_crypt.verify(password, self.password_hash)
+		return sha512_crypt.verify(password, self.hashed_password)
 
 
 	# database interaction functions
