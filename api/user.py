@@ -72,16 +72,6 @@ class User(db.Model):
 			return None, "An unknown error occurred."
 
 	@staticmethod
-	def reactivate(id):
-		user = User.query.filter_by(user_id=id).first()
-		if user:
-			user.deleted = False
-			db.session.commit()
-			return user, "User found and activated."
-		else:
-			return None, "No user found with that ID."
-
-	@staticmethod
 	def get_all():
 		return User.query.all()
 
@@ -100,21 +90,18 @@ class User(db.Model):
 	def edit(self, username=None, firstname=None, lastname=None, email=None):
 		if self.deleted:
 			return None, "User previously deleted."
-
-		if username:
+		if username is not None:
 			self.username = username
-		if firstname:
+		if firstname is not None:
 			self.firstname = firstname
-		if lastname:
+		if lastname is not None:
 			self.lastname = lastname
-		if email:
+		if email is not None:
 			self.email = email
-
 		valid, messages = self.validate()
 		if not valid:
 			db.session.rollback()
 			return None, messages
-
 		try:
 			db.session.commit()
 			return self, "User edited successfully."
@@ -128,3 +115,13 @@ class User(db.Model):
 		self.deleted = True
 		db.session.commit()
 		return self.user_id, "User deleted successfully."
+
+	@staticmethod
+	def reactivate(id):
+		user = User.query.filter_by(user_id=id).first()
+		if user is not None:
+			user.deleted = False
+			db.session.commit()
+			return user, "User found and activated."
+		else:
+			return None, "No user found with that ID."

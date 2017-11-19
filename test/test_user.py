@@ -120,6 +120,21 @@ class userTest(unittest.TestCase):
 			self.assertIsNone(user1, msg="User.edit() did not return None when editing a deleted user")
 			self.assertEqual(response, "User previously deleted.", msg="User.edit() did not properly respond to a deleted user")
 
+	def test_user_reactivate(self):
+		with userTest.app.app_context():
+			user1, response = User.get_by_id(1)
+			u1_id, response = user1.delete()
+			self.assertEqual(u1_id, 1, msg="User.delete() did not return the deleted ID")
+
+			user1, response = User.reactivate(1)
+			self.assertFalse(user1.deleted, msg="User.reactivate() did not reactivate the account")
+
+			user3, response = User.reactivate(3)
+			self.assertFalse(user3.deleted, msg="User.reactivate() deactivated an active account")
+
+			user5, response = User.reactivate(5)
+			self.assertIsNone(user5, msg="User.reactivate() returned an incorrect value for a nonexistant user")
+
 	def test_user_validate(self):
 		with userTest.app.app_context():
 			# valid user
