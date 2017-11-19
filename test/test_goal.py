@@ -28,7 +28,7 @@ class goalTest(unittest.TestCase):
 		with goalTest.app.app_context():
 			all_goals = Goal.get_all_from_user_id(1)
 			
-			# Should be a list of 4 User objects
+			# Should be a list of 2 Goal objects
 			self.assertIsInstance(all_goals, list, msg="Did not return a list")
 			for goal in all_goals:
 				self.assertIsInstance(goal, Goal, msg="Contained a non-Goal object")
@@ -117,6 +117,9 @@ class goalTest(unittest.TestCase):
 
 			g7, response = Goal.reactivate(7)
 			self.assertIsNone(g7, msg="Wrong response to reactivating nonexistant goal")
+
+			gA, gA_msg = Goal.reactivate('A')
+			self.assertIsNone(gA, msg="Wrtong response to reactivating invalid id")
 
 	def test_goal_validate(self):
 		with goalTest.app.app_context():

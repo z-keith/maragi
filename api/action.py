@@ -12,29 +12,34 @@ class Action(db.Model):
 	date_created = db.Column(db.DateTime, default=db.func.current_timestamp())
 	date_modified = db.Column(db.DateTime, default=db.func.current_timestamp(),
     	onupdate=db.func.current_timestamp())
+	deleted = db.Column(db.Boolean, default=False)
 
 	def __init__(self, goal_id, description, milli_value):
 		self.goal_id = goal_id
 		self.description = description
 		self.milli_value = milli_value
 
+	def validate(self):
+		return True, None
+
 	# database interaction functions
 	def add(self):
+		valid, messages = self.validate()
+		if not valid:
+			return None, messages
 		try:
 			db.session.add(self)
 			db.session.commit()
 			return self.goal_id, "Added new action successfully."
 		except IntegrityError as e:
+			db.session.rollback()
 			return None, str(e.orig.diag.message_primary)
 		except:
+			db.session.rollback()
 			return None, "An unknown error occurred."
 
 	@staticmethod
-	def get_all_from_user_ID(user_id):
-		pass
-
-	@staticmethod
-	def get_all_from_goal_ID(goal_id):
+	def get_all_from_goal_id(goal_id):
 		pass
 
 	@staticmethod
@@ -45,5 +50,9 @@ class Action(db.Model):
 		pass
 
 	def delete(self):
+		pass
+
+	@staticmethod
+	def reactivate(id):
 		pass
 
