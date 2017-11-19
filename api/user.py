@@ -91,6 +91,18 @@ class User(db.Model):
 		except:
 			return None, "An unknown error occurred."
 
+	@staticmethod
+	def get_by_username(username):
+		try:
+			return_val = User.query.filter_by(username=username, deleted=False).first()
+			if return_val == None:
+				return None, "No active user with that username."
+			return return_val, "User found successfully."
+		except DataError as e:
+			return None, str(e.orig.diag.message_primary)
+		except:
+			return None, "An unknown error occurred."
+
 	def edit(self, username=None, firstname=None, lastname=None, email=None):
 		if self.deleted:
 			return None, "User previously deleted."

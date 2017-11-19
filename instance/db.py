@@ -10,10 +10,10 @@ def init_testdb():
 
 def init_users():
 	from api.user import User
-	arthur = User('mustbethursday', 'Arthur', 'Dent', 'bewareofleopard@yahoo.com', '$6$rounds=656000$4zRd68HDkcQMoo3A$Ovlvva/VdfsJKZK6/sYAIoFnUcL6Cbpoh35wf2n4TZ1OAAgAo/DkBgxiMK1qKb4r/MxytGMgX4UfMg2JyQlNe0')
-	fenchurch = User('AnArtToFlying', 'Fenchurch', '', 'nomorenails@outlook.com', '$6$rounds=656000$4zRd68HDkcQMoo3A$Ovlvva/VdfsJKZK6/sYAIoFnUcL6Cbpoh35wf2n4TZ1OAAgAo/DkBgxiMK1qKb4r/MxytGMgX4UfMg2JyQlNe0')
-	ford = User('Ix_prime', 'Ford', 'Prefect', 'unpleasantlydrunk@gmail.com', '$6$rounds=656000$4zRd68HDkcQMoo3A$Ovlvva/VdfsJKZK6/sYAIoFnUcL6Cbpoh35wf2n4TZ1OAAgAo/DkBgxiMK1qKb4r/MxytGMgX4UfMg2JyQlNe0')
-	marvin = User('oh_no', 'Marvin', 'the Paranoid Android', 'GPP.0042@siriuscybernetics.com', '$6$rounds=656000$4zRd68HDkcQMoo3A$Ovlvva/VdfsJKZK6/sYAIoFnUcL6Cbpoh35wf2n4TZ1OAAgAo/DkBgxiMK1qKb4r/MxytGMgX4UfMg2JyQlNe0')
+	arthur = User('mustbethursday', 'Arthur', 'Dent', 'bewareofleopard@yahoo.com', '$6$rounds=656000$5aoOS0OwZhuCSBgt$VjCBqVTG6N4Is17X2yEF1PcMooLquiaDftICME7my06biCVJojVept.4RVdYDoRBrojVHKxsDo6uMOeP0JZc9/')
+	fenchurch = User('AnArtToFlying', 'Fenchurch', '', 'nomorenails@outlook.com', '$6$rounds=656000$5aoOS0OwZhuCSBgt$VjCBqVTG6N4Is17X2yEF1PcMooLquiaDftICME7my06biCVJojVept.4RVdYDoRBrojVHKxsDo6uMOeP0JZc9/')
+	ford = User('Ix_prime', 'Ford', 'Prefect', 'unpleasantlydrunk@gmail.com', '$6$rounds=656000$TZ5JXKjROSOuEY97$M9bHq.N9h9cl3TPfoe29H5Y/LxfXmCDSm4KXUq8yNt9nlPmYaQ0DF.i/nbqGzHkOn0ROJrdWX4HNAkMMudXAU.')
+	marvin = User('oh_no', 'Marvin', 'the Paranoid Android', 'GPP.0042@siriuscybernetics.com', '$6$rounds=656000$TZ5JXKjROSOuEY97$M9bHq.N9h9cl3TPfoe29H5Y/LxfXmCDSm4KXUq8yNt9nlPmYaQ0DF.i/nbqGzHkOn0ROJrdWX4HNAkMMudXAU.')
 
 	db.session.add(arthur)
 	db.session.add(fenchurch)

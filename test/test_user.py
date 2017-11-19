@@ -85,6 +85,21 @@ class userTest(unittest.TestCase):
 			userA, uA_msg = User.get_by_id('A')
 			self.assertIsNone(userA, msg="User.get_by_id() did not return None for an invalid ID")
 
+	def test_user_get_by_name(self):
+		with userTest.app.app_context():
+			# valid IDs
+			user1, u1_msg = User.get_by_username('mustbethursday')
+			self.assertIsInstance(user1, User, msg="User.get_by_username() returned a non-User object")
+			self.assertEqual(user1.username, 'mustbethursday', msg="User.get_by_username() returned the wrong user")
+			user3, u3_msg = User.get_by_username('Ix_prime')
+			self.assertIsInstance(user3, User, msg="User.get_by_username() returned a non-User object")
+			self.assertEqual(user3.username, 'Ix_prime', msg="User.get_by_username() returned the wrong user")
+
+			# invalid IDs
+			user5, u5_msg = User.get_by_username('beeblebro')
+			self.assertIsNone(user5, msg="User.get_by_username() did not return None for a nonexistant ID")
+			self.assertEqual(u5_msg, "No active user with that username.", msg="User.get_by_username() did not properly respond to a nonexistant ID")
+
 
 	def test_user_edit(self):
 		with userTest.app.app_context():

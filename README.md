@@ -7,8 +7,8 @@
 # todo: test-driven edition!
 ## Server side
 -	~~database setup (postgres, this time)~~
--	data model (~~user~~, ~~goal~~, action)
--	server-side of login and authentication
+-	~~data model (user, goal, action)~~
+-	~~server-side of login and authentication~~
 -	data access endpoints (RESTful get, add, edit, remove - all with HTTPS and server-side validation)
 	- ~~note: round millivalue when +-2 from a round number (accounts for use of .333 and .167)~~
 ## Client side
