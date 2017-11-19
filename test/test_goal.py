@@ -24,6 +24,10 @@ class goalTest(unittest.TestCase):
 			id, message = g1.add()
 			self.assertEqual(id, 7, msg="Goal not created?")
 
+			g1 = Goal(9, 'Make 100 unloved children', 100000)
+			id, message = g1.add()
+			self.assertIsNone(id, msg="Created goal with invalid user id")
+
 	def test_goal_get_all(self):
 		with goalTest.app.app_context():
 			all_goals = Goal.get_all_from_user_id(1)
@@ -119,7 +123,7 @@ class goalTest(unittest.TestCase):
 			self.assertIsNone(g7, msg="Wrong response to reactivating nonexistant goal")
 
 			gA, gA_msg = Goal.reactivate('A')
-			self.assertIsNone(gA, msg="Wrtong response to reactivating invalid id")
+			self.assertIsNone(gA, msg="Wrong response to reactivating invalid id")
 
 	def test_goal_validate(self):
 		with goalTest.app.app_context():

@@ -122,10 +122,15 @@ class User(db.Model):
 
 	@staticmethod
 	def reactivate(id):
-		user = User.query.filter_by(user_id=id).first()
-		if user is not None:
-			user.deleted = False
-			db.session.commit()
-			return user, "User found and activated."
-		else:
-			return None, "No user found with that ID."
+		try:
+			user = User.query.filter_by(user_id=id).first()
+			if user is not None:
+				user.deleted = False
+				db.session.commit()
+				return user, "User found and activated."
+			else:
+				return None, "No user found with that ID."
+		except DataError as e:
+			return None, str(e.orig.diag.message_primary)
+		except:
+			return None, "An unknown error occurred."

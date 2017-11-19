@@ -28,10 +28,14 @@ class Goal(db.Model):
 			self.inverted = False
 
 	def validate(self):
+		from api.user import User
 		try:
 			int(self.current_milliscore)
 			int(self.target_milliscore)
 			int(self.user_id)
+			u, msg = User.get_by_id(self.user_id)
+			if u is None:
+				return False, ["User ID does not exist"]
 			return True, None
 		except:
 			return False, ["Invalid parameter format"]
@@ -54,7 +58,10 @@ class Goal(db.Model):
 
 	@staticmethod
 	def get_all_from_user_id(user_id):
-		return Goal.query.filter_by(user_id=user_id, deleted=False).all()
+		try:
+			return Goal.query.filter_by(user_id=user_id, deleted=False).all()
+		except DataError as e:
+			return None, str(e.orig.diag.message_primary)
 
 	@staticmethod
 	def get_by_id(goal_id):
@@ -107,15 +114,20 @@ class Goal(db.Model):
 			return None, "Goal already deleted."
 		self.deleted = True
 		db.session.commit()
-		return self.user_id, "Goal deleted successfully."
+		return self.goal_id, "Goal deleted successfully."
 
 	@staticmethod
 	def reactivate(goal_id):
-		goal = Goal.query.filter_by(goal_id=goal_id).first()
-		if goal is not None:
-			goal.deleted = False
-			db.session.commit()
-			return goal, "Goal found and activated."
-		else:
-			return None, "No goal found with that ID."
+		try:
+			goal = Goal.query.filter_by(goal_id=goal_id).first()
+			if goal is not None:
+				goal.deleted = False
+				db.session.commit()
+				return goal, "Goal found and activated."
+			else:
+				return None, "No goal found with that ID."
+		except DataError as e:
+			return None, str(e.orig.diag.message_primary)
+		except:
+			return None, "An unknown error occurred."
 

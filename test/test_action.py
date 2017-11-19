@@ -19,7 +19,13 @@ class actionTest(unittest.TestCase):
 	
 	def test_action_creation(self):
 		with actionTest.app.app_context():
-			pass
+			a1 = Action(1, 'Tuna', 1000)
+			id, message = a1.add()
+			self.assertEqual(id, 9, msg="Action not created?")
+
+			a1 = Action(9, 'Tuna', 1000)
+			id, message = a1.add()
+			self.assertIsNone(id, msg="Created action with invalid goal id")
 
 	def test_action_get_all_by_goal(self):
 		with actionTest.app.app_context():
@@ -36,15 +42,15 @@ class actionTest(unittest.TestCase):
 			# valid IDs
 			a1, a1_msg = Action.get_by_id(1)
 			self.assertIsInstance(a1, Action, msg="Returned a non-Action object")
-			self.assertEqual(a1.title, 'Make 100 sandwiches', msg="Returned the wrong action")
+			self.assertEqual(a1.description, 'Corned beef on rye', msg="Returned the wrong action")
 			a3, a3_msg = Action.get_by_id(3)
 			self.assertIsInstance(a3, Action, msg="Returned a non-Action object")
-			self.assertEqual(a3.title, 'Fly 6 times', msg="Returned the wrong action")
+			self.assertEqual(a3.description, 'Found fishbowl', msg="Returned the wrong action")
 
 			# invalid IDs
-			a8, a8_msg = Action.get_by_id(9)
-			self.assertIsNone(a8, msg="Did not return None for a nonexistant ID")
-			self.assertEqual(a8_msg, "No active action with that ID.", msg="Did not properly respond to a nonexistant ID")
+			a9, a9_msg = Action.get_by_id(9)
+			self.assertIsNone(a9, msg="Did not return None for a nonexistant ID")
+			self.assertEqual(a9_msg, "No active action with that ID.", msg="Did not properly respond to a nonexistant ID")
 			aA, aA_msg = Action.get_by_id('A')
 			self.assertIsNone(aA, msg="Did not return None for an invalid ID")
 
@@ -52,20 +58,20 @@ class actionTest(unittest.TestCase):
 		with actionTest.app.app_context():
 			a1, a1_msg = Action.get_by_id(1)
 			# 1 valid update
-			u, msg = a1.edit(title="SANDWICHES!!!")
-			self.assertEqual(a1.title, "SANDWICHES!!!", msg="Did not update this field.")
+			u, msg = a1.edit(description="SANDWICHES!!!")
+			self.assertEqual(a1.description, "SANDWICHES!!!", msg="Did not update this field.")
 			# 2 valid updates
-			u, msg = a1.edit(title="sandwiches??", target_milliscore=999)
-			self.assertEqual(a1.title, "sandwiches??", msg="Did not update this field.")
-			self.assertEqual(a1.target_milliscore, 999, msg="Did not update this field.")
+			u, msg = a1.edit(description="sandwiches??", milli_value=999)
+			self.assertEqual(a1.description, "sandwiches??", msg="Did not update this field.")
+			self.assertEqual(a1.milli_value, 999, msg="Did not update this field.")
 			# No updates
 			u, msg = a1.edit()
 			self.assertEqual(msg, "Action edited successfully.", msg="Did not handle an empty update operation.")
 			# valid and invalid updates
-			u, msg = a1.edit(title="nope", target_milliscore="a")
+			u, msg = a1.edit(description="nope", milli_value="a")
 			self.assertIsNone(u, msg="Did not return None when there was an invalid field.")
-			self.assertNotEqual(a1.title, "nope", msg="Updated a field with a valid value, when there was an invalid value in the same transaction.")
-			self.assertEqual(a1.target_milliscore, 999, msg="Updated a field with an invalid value.")
+			self.assertNotEqual(a1.description, "nope", msg="Updated a field with a valid value, when there was an invalid value in the same transaction.")
+			self.assertEqual(a1.milli_value, 999, msg="Updated a field with an invalid value.")
 
 	def test_action_delete(self):
 		with actionTest.app.app_context():
@@ -78,7 +84,7 @@ class actionTest(unittest.TestCase):
 			a1_id, response = a1.delete()
 			self.assertIsNone(a1_id, msg="Returned wrong value when deleting a deleted action")
 			self.assertEqual(response, "Action already deleted.")
-			a1, response = a1.edit(title="So much sandwich")
+			a1, response = a1.edit(description="So much sandwich")
 			self.assertIsNone(a1, msg="Returned wrong value when editing a deleted action")
 			self.assertEqual(response, "Action previously deleted.")
 
@@ -94,11 +100,11 @@ class actionTest(unittest.TestCase):
 			a3, response = Action.reactivate(3)
 			self.assertFalse(a3.deleted, msg="Reactivating active action deactivates it")
 
-			a8, response = Action.reactivate(7)
-			self.assertIsNone(a8, msg="Wrong response to reactivating nonexistant action")
+			a9, response = Action.reactivate(9)
+			self.assertIsNone(a9, msg="Wrong response to reactivating nonexistant action")
 
 			aA, aA_msg = Action.reactivate('A')
-			self.assertIsNone(aA, msg="Wrtong response to reactivating invalid id")
+			self.assertIsNone(aA, msg="Wrong response to reactivating invalid id")
 
 	def test_action_validate(self):
 		with actionTest.app.app_context():
@@ -106,14 +112,18 @@ class actionTest(unittest.TestCase):
 			valid, messages = a1.validate()
 			self.assertTrue(valid, msg="Incorrectly marked as invalid")
 
-			a1.user_id = 'a'
+			a1.goal_id = 0
 			valid, messages = a1.validate()
-			self.assertFalse(valid, msg="Incorrectly marked as invalid [char user_id]")
+			self.assertFalse(valid, msg="Incorrectly marked as valid [nonexistantgoal_id]")
+
+			a1.goal_id = 'a'
+			valid, messages = a1.validate()
+			self.assertFalse(valid, msg="Incorrectly marked as valid [char goal_id]")
 
 			a1.current_milliscore = 'a'
 			valid, messages = a1.validate()
-			self.assertFalse(valid, msg="Incorrectly marked as invalid [char current_milliscore]")
+			self.assertFalse(valid, msg="Incorrectly marked as valid [char current_milliscore]")
 
 			a1.target_milliscore = 'a'
 			valid, messages = a1.validate()
-			self.assertFalse(valid, msg="Incorrectly marked as invalid [char target_milliscore]")
+			self.assertFalse(valid, msg="Incorrectly marked as valid [char target_milliscore]")

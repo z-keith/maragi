@@ -135,6 +135,9 @@ class userTest(unittest.TestCase):
 			user5, response = User.reactivate(5)
 			self.assertIsNone(user5, msg="User.reactivate() returned an incorrect value for a nonexistant user")
 
+			userA, userA_msg = User.reactivate('A')
+			self.assertIsNone(userA, msg="Wrong response to reactivating invalid id")
+
 	def test_user_validate(self):
 		with userTest.app.app_context():
 			# valid user
