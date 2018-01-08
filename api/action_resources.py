@@ -6,7 +6,11 @@ from api.parser import parser
 action_fields = {
 	'action_id' : fields.Integer,
 	'goal_id' : fields.Integer,
-	'description' : fields.String
+	'description' : fields.String,
+	'milli_value' : fields.Integer,
+	'date_created' : fields.DateTime,
+	'date_modified' : fields.DateTime,
+	'deleted' : fields.Boolean
 }
 
 class ReadAction(Resource):

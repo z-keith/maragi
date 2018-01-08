@@ -4,9 +4,15 @@ from api.goal import Goal
 from api.parser import parser
 
 goal_fields = {
-	'action_id' : fields.Integer,
 	'goal_id' : fields.Integer,
-	'description' : fields.String
+	'user_id' : fields.Integer,
+	'title' : fields.String,
+	'current_milliscore' : fields.Integer,
+	'target_milliscore' : fields.Integer,
+	'inverted' : fields.Boolean,
+	'date_created' : fields.DateTime,
+	'date_modified' : fields.DateTime,
+	'deleted' : fields.Boolean
 }
 
 class ReadGoal(Resource):

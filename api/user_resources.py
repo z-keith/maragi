@@ -4,15 +4,17 @@ from api.user import User
 from api.parser import parser
 
 user_fields = {
-	'action_id' : fields.Integer,
-	'goal_id' : fields.Integer,
-	'description' : fields.String
+	'user_id'  : fields.Integer,
+	'username' : fields.String,
+	'email' : fields.String,
+	'firstname' : fields.String,
+	'lastname' : fields.String
 }
 
 class ReadUser(Resource):
 	@marshal_with(user_fields, envelope='data')
 	def post(self, user_id):
-		pass
+		name = parser.parse_args()['firstname']
 
 class ReadUsers(Resource):
 	@marshal_with(user_fields, envelope='data')
