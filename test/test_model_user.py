@@ -161,10 +161,13 @@ class userTest(unittest.TestCase):
 			self.assertTrue(valid, msg="User.validate incorrectly labeled a valid user.")
 
 			# invalid usernames
+			# is there such a thing? (length?)
 
 			# invalid firstnames
+			# is there such a thing? (length?)
 
 			# invalid lastnames
+			# is there such a thing? (length?)
 
 			# invalid emails
 			u.email = "wasacsac"

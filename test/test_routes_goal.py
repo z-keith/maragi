@@ -22,24 +22,24 @@ class goalRouteTest(unittest.TestCase):
 	
 	def test_route_goal_read(self):
 		with self.app.app_context():
-			pass
+			raise NotImplementedError
 
 	def test_route_goal_reads(self):
 		with self.app.app_context():
-			pass
+			raise NotImplementedError
 
 	def test_route_goal_add(self):
 		with self.app.app_context():
-			pass
+			raise NotImplementedError
 
 	def test_route_goal_edit(self):
 		with self.app.app_context():
-			pass
+			raise NotImplementedError
 			
 	def test_route_goal_delete(self):
 		with self.app.app_context():
-			pass
+			raise NotImplementedError
 			
 	def test_route_goal_reactivate(self):
 		with self.app.app_context():
-			pass
+			raise NotImplementedError

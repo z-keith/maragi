@@ -22,24 +22,24 @@ class actionRouteTest(unittest.TestCase):
 	
 	def test_route_action_read(self):
 		with self.app.app_context():
-			pass
+			raise NotImplementedError
 				
 	def test_route_action_reads(self):
 		with self.app.app_context():
-			pass
+			raise NotImplementedError
 			
 	def test_route_action_add(self):
 		with self.app.app_context():
-			pass
+			raise NotImplementedError
 			
 	def test_route_action_edit(self):
 		with self.app.app_context():
-			pass
+			raise NotImplementedError
 			
 	def test_route_action_delete(self):
 		with self.app.app_context():
-			pass
+			raise NotImplementedError
 			
 	def test_route_action_reactivate(self):
 		with self.app.app_context():
-			pass
+			raise NotImplementedError

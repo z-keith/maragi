@@ -12,3 +12,8 @@ class RequestToken(Resource):
 	@marshal_with(auth_fields, envelope='data')
 	def post(self):
 		pass
+
+class ValidateToken(Resource):
+	@marshal_with(auth_fields, envelope='data')
+	def post(self):
+		pass

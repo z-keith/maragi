@@ -22,4 +22,8 @@ class authRouteTest(unittest.TestCase):
 	
 	def test_route_auth_request(self):
 		with self.app.app_context():
-			pass
+			raise NotImplementedError
+
+	def test_route_auth_validate(self):
+		with self.app.app_context():
+			raise NotImplementedError

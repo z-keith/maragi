@@ -31,3 +31,4 @@ api.add_resource(ReactivateGoal, '/goal/<int:goal_id>/reactivate')
 api.add_resource(ReactivateAction, '/action/<int:action_id>/reactivate')
 
 api.add_resource(RequestToken, '/login')
+api.add_resource(ValidateToken, '/validate')
