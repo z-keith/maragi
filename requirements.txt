@@ -1,9 +1,14 @@
 flask
+flask-restful
 flask-login
 flask-wtf
+
 flask-sqlalchemy
-flask-restful
+flask-migrate
+psycopg2
+
 passlib
 requests
-pytest
+
+nose2
 coverage
